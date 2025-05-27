@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strawberry Lips - A Love Poem</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffcce6, #ffb3d9);
+            font-family: 'Montserrat', sans-serif;
+            color: #5a2a3a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            color: #d94d6a;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .poem {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            line-height: 2.2rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .stanza {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .stanza.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight {
+            color: #d94d6a;
+            font-weight: bold;
+        }
+
+        .strawberry {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23d94d6a" d="M511.1 143.1c0-8.75-4.5-16.62-12-21.25L460.5 99.5c-7.5-4.625-16.88-4.75-24.5-.25l-42.25 25.5c-7.625 4.5-10.75 13.88-7.375 21.88l-27.75 44.5c-3.375-8-12.62-11.75-20.88-8.375l-42.5 17.5c-8.25 3.375-12.12 12.62-8.75 20.88l-44.38 27.75c-8-3.375-17.5.125-21.88 7.625l-25.5 42.25c-4.5 7.625-4.375 17 .25 24.5l22.25 38.75c4.625 7.5 12.5 12 21.25 12h.125l49.12-.125c8.75 0 16.62-4.5 21.25-12l25.5-42.25c4.5-7.625 13.88-10.75 21.88-7.375l44.5 27.75c3.375-8.25 12.62-12.12 20.88-8.75l42.5 17.5c8.25 3.375 12.12 12.62 8.75 20.88l27.75 44.5c3.375 8 12.75 11.62 20.88 8.25l42.25-17.5c8.125-3.375 11.75-12.75 8.375-20.88l17.5-42.5c3.375-8.125 12.75-11.75 20.88-8.375l44.5 27.75c3.375-8 10.5-11.12 17.5-8.25l42.25 25.5c7.625 4.5 17 4.375 24.5-.25l38.75-22.25c7.5-4.625 12-12.5 12-21.25v-49.12c0-8.75-4.5-16.62-12-21.25l-25.5-42.25c-4.5-7.625-4.375-17 .25-24.5l22.25-38.75c4.625-7.5 4.75-16.88.25-24.5l-25.5-42.25c-4.5-7.625-13.88-10.75-21.88-7.375l-44.5 27.75c-3.375-8-12.62-11.75-20.88-8.375l-42.5 17.5c-8.25 3.375-12.12 12.62-8.75 20.88l-27.75 44.5c-3.375 8-12.75 11.62-20.88 8.25l-42.25-17.5c-8.125-3.375-11.75-12.75-8.375-20.88l17.5-42.5c3.375-8.125 12.75-11.75 20.88-8.375l27.75 44.5c3.375-8 10.5-11.12 17.5-8.25l42.25 25.5c7.625 4.5 17 4.375 24.5-.25l38.75-22.25c7.5-4.625 12-12.5 12-21.25V143.1z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: -1;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #d94d6a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #b83a55;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #8c5d6d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Strawberry Lips</h1>
+
+        <div class="poem">
+            <div class="stanza" id="stanza1">
+                Lips that taste like <span class="highlight">strawberries</span>,<br>
+                And the warmth of your embrace.<br>
+                Takes away all our contraries.<br>
+                My clarity in a world that's full of haze.
+            </div>
+
+            <div class="stanza" id="stanza2">
+                Your touch is my weakness,<br>
+                Yet my strength is having you around.<br>
+                I'm in the depth without your presence.<br>
+                What an irreplaceable love can be found?
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button id="highlightBtn">Highlight Love</button>
+            <button id="animateBtn">Animate Poem</button>
+            <button id="heartsBtn">Show Hearts</button>
+        </div>
+
+        <footer>
+            A digital rendition of a heartfelt poem
+        </footer>
+    </div>
+
+    <!-- Strawberry decorations -->
+    <div class="strawberry" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="strawberry" style="top: 80%; left: 10%; animation-delay: 1s; width: 40px; height: 40px;"></div>
+    <div class="strawberry" style="top: 20%; right: 8%; animation-delay: 2s; width: 50px; height: 50px;"></div>
+    <div class="strawberry" style="bottom: 15%; right: 5%; animation-delay: 3s;"></div>
+
+    <script>
+        // Animate stanzas on load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                document.getElementById('stanza1').classList.add('visible');
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById('stanza2').classList.add('visible');
+            }, 1500);
+
+            // Create strawberries
+            for (let i = 0; i < 10; i++) {
+                createStrawberry();
+            }
+        });
+
+        // Highlight button functionality
+        document.getElementById('highlightBtn').addEventListener('click', function () {
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(el => {
+                el.classList.toggle('pulse');
+
+                // Add temporary animation class
+                el.classList.add('highlight-pulse');
+                setTimeout(() => {
+                    el.classList.remove('highlight-pulse');
+                }, 1000);
+            });
+        });
+
+        // Animate button functionality
+        document.getElementById('animateBtn').addEventListener('click', function () {
+            const stanzas = document.querySelectorAll('.stanza');
+            stanzas.forEach((stanza, index) => {
+                // Reset animation
+                stanza.classList.remove('visible');
+
+                // Reapply with delay
+                setTimeout(() => {
+                    stanza.classList.add('visible');
+                }, index * 300);
+            });
+        });
+
+        // Hearts button functionality
+        document.getElementById('heartsBtn').addEventListener('click', function () {
+            for (let i = 0; i < 20; i++) {
+                createHeart();
+            }
+        });
+
+        function createStrawberry() {
+            const strawberry = document.createElement('div');
+            strawberry.className = 'strawberry';
+
+            // Random position
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+
+            // Random size
+            const size = 30 + Math.random() * 40;
+
+            // Random animation delay
+            const delay = Math.random() * 5;
+
+            strawberry.style.left = `${posX}%`;
+            strawberry.style.top = `${posY}%`;
+            strawberry.style.width = `${size}px`;
+            strawberry.style.height = `${size}px`;
+            strawberry.style.animationDelay = `${delay}s`;
+
+            document.body.appendChild(strawberry);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = Math.random() * 100 + 'vh';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animation = `float ${Math.random() * 3 + 2}s linear`;
+
+            document.body.appendChild(heart);
+
+            // Animate heart
+            let opacity = 0;
+            const fadeIn = setInterval(() => {
+                opacity += 0.05;
+                heart.style.opacity = opacity;
+                if (opacity >= 1) clearInterval(fadeIn);
+            }, 50);
+
+            // Remove after animation
+            setTimeout(() => {
+                let opacity = 1;
+                const fadeOut = setInterval(() => {
+                    opacity -= 0.05;
+                    heart.style.opacity = opacity;
+                    if (opacity <= 0) {
+                        clearInterval(fadeOut);
+                        heart.remove();
+                    }
+                }, 50);
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
