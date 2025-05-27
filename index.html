@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Pixelated Heart</title>
+    <style>
+        body {
+            background-color: #fff0f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .heart-container {
+            display: grid;
+            grid-template-columns: repeat(10, 20px);
+            grid-template-rows: repeat(9, 20px);
+            gap: 1px;
+            transition: transform 0.3s ease;
+        }
+
+        .pixel {
+            width: 20px;
+            height: 20px;
+            border: 1px solid white;
+            box-sizing: border-box;
+            transition:
+                transform 0.2s ease,
+                background-color 0.3s ease,
+                opacity 0.3s ease;
+        }
+
+        .blue {
+            background-color: #4287f5;
+        }
+
+        .purple {
+            background-color: #b83dba;
+        }
+
+        .pink {
+            background-color: #f54298;
+        }
+
+        .empty {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Beat animation */
+        @keyframes beat {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+
+            60% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .beat {
+            animation: beat 1s infinite;
+        }
+
+        /* Float animation */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Rainbow animation */
+        @keyframes rainbow {
+            0% {
+                background-color: #4287f5;
+            }
+
+            25% {
+                background-color: #42f5a7;
+            }
+
+            50% {
+                background-color: #f5e642;
+            }
+
+            75% {
+                background-color: #f54298;
+            }
+
+            100% {
+                background-color: #b83dba;
+            }
+        }
+
+        .rainbow {
+            animation: rainbow 4s linear infinite;
+        }
+
+        /* Message styling */
+        .message {
+            position: absolute;
+            bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            color: #f54298;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+        }
+
+        .show-message {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heart-container" id="heart"></div>
+    <div class="message" id="message">Click me!</div>
+
+    <script>
+        // Heart pattern (1 = blue, 2 = purple, 3 = pink, 0 = empty)
+        const heartPattern = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
+            [0, 1, 2, 2, 1, 1, 2, 2, 1, 0],
+            [0, 1, 2, 3, 2, 2, 3, 2, 1, 0],
+            [0, 1, 2, 3, 3, 3, 3, 2, 1, 0],
+            [0, 0, 1, 2, 3, 3, 2, 1, 0, 0],
+            [0, 0, 0, 1, 2, 2, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        const container = document.getElementById('heart');
+        const message = document.getElementById('message');
+        let currentAnimation = null;
+        let pixels = [];
+
+        // Create heart
+        heartPattern.forEach(row => {
+            row.forEach(pixel => {
+                const div = document.createElement('div');
+                div.className = 'pixel ';
+
+                switch (pixel) {
+                    case 1:
+                        div.classList.add('blue');
+                        break;
+                    case 2:
+                        div.classList.add('purple');
+                        break;
+                    case 3:
+                        div.classList.add('pink');
+                        break;
+                    default:
+                        div.classList.add('empty');
+                }
+
+                container.appendChild(div);
+                pixels.push(div);
+            });
+        });
+
+        // Show initial message
+        setTimeout(() => {
+            message.classList.add('show-message');
+        }, 1000);
+
+        // Click interaction
+        container.addEventListener('click', () => {
+            // Cycle through different animations
+            if (currentAnimation === null) {
+                // First click - start beating
+                container.classList.add('beat');
+                currentAnimation = 'beat';
+                message.textContent = "I'm beating for you!";
+            } else if (currentAnimation === 'beat') {
+                // Second click - float
+                container.classList.remove('beat');
+                container.classList.add('float');
+                currentAnimation = 'float';
+                message.textContent = "I'm floating with joy!";
+            } else if (currentAnimation === 'float') {
+                // Third click - rainbow effect
+                container.classList.remove('float');
+                pixels.forEach(pixel => {
+                    if (!pixel.classList.contains('empty')) {
+                        pixel.classList.add('rainbow');
+                    }
+                });
+                currentAnimation = 'rainbow';
+                message.textContent = "So colorful!";
+            } else {
+                // Fourth click - reset
+                pixels.forEach(pixel => {
+                    pixel.classList.remove('rainbow');
+                    // Reset to original colors
+                    if (pixel.classList.contains('blue')) {
+                        pixel.style.backgroundColor = '#4287f5';
+                    } else if (pixel.classList.contains('purple')) {
+                        pixel.style.backgroundColor = '#b83dba';
+                    } else if (pixel.classList.contains('pink')) {
+                        pixel.style.backgroundColor = '#f54298';
+                    }
+                });
+                currentAnimation = null;
+                message.textContent = "Click me again!";
+            }
+
+            // Bounce effect on click
+            container.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                container.style.transform = 'scale(1)';
+            }, 300);
+        });
+
+        // Hover interaction
+        container.addEventListener('mouseover', () => {
+            if (currentAnimation === null) {
+                // Only do hover effect if no animation is active
+                pixels.forEach((pixel, index) => {
+                    if (!pixel.classList.contains('empty')) {
+                        setTimeout(() => {
+                            pixel.style.transform = 'translateY(-5px)';
+                            pixel.style.opacity = '0.8';
+                            setTimeout(() => {
+                                pixel.style.transform = '';
+                                pixel.style.opacity = '';
+                            }, 300);
+                        }, index * 20);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
