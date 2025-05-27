@@ -3,383 +3,123 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Strawberry Lips - Interactive Poem Slideshow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strawberry Clarity Slideshow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@700&display=swap');
-
-        /* Reset */
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            background: #ffe6f0;
-            font-family: 'Poppins', sans-serif;
-            color: #5a2a3a;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(to bottom right, #ffb6b9, #dcd6f7);
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        .slideshow-container {
-            width: 90%;
-            max-width: 700px;
-            background: #fff0f6;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(217, 77, 106, 0.3);
-            padding: 50px 40px 70px 40px;
-            position: relative;
+        .poem-container {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            max-width: 600px;
             text-align: center;
-            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .poem-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
+            color: #b33951;
+            margin-bottom: 20px;
         }
 
         .slide {
-            opacity: 0;
-            transform: scale(0.95);
-            position: absolute;
-            width: 100%;
-            top: 50%;
-            left: 50%;
-            transform-origin: center;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            pointer-events: none;
-            user-select: none;
-            color: #6b2a3c;
+            display: none;
+            font-size: 1.1em;
+            line-height: 1.7;
+            white-space: pre-line;
         }
 
         .slide.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            position: relative;
-            pointer-events: auto;
-            user-select: text;
+            display: block;
+            animation: fadeIn 1s;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-weight: 700;
-            font-size: 3.8rem;
-            margin-bottom: 15px;
-            text-shadow: 0 1px 3px rgba(217, 77, 106, 0.4);
-            color: #d94d6a;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        p {
-            font-weight: 600;
-            font-size: 1.15rem;
-            margin-bottom: 35px;
-            color: #b35370;
-            letter-spacing: 0.03em;
-        }
-
-        .poem {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            line-height: 3rem;
-            margin-bottom: 40px;
-            color: #8c4c61;
-        }
-
-        .highlight {
-            color: #d94d6a;
-            font-weight: 700;
-            text-shadow: 0 0 6px #d94d6a88;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-
-        button {
-            background-color: #d94d6a;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 35px;
-            font-size: 1.1rem;
+        .btn {
+            background-color: #ff6f91;
             color: white;
-            font-weight: 600;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 25px;
+            border-radius: 10px;
+            font-size: 1em;
             cursor: pointer;
-            box-shadow: 0 5px 12px rgba(217, 77, 106, 0.35);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: background 0.3s;
         }
 
-        button:hover:not(:disabled) {
-            background-color: #b83a55;
-            box-shadow: 0 7px 16px rgba(184, 58, 85, 0.45);
-            transform: translateY(-3px);
-        }
-
-        button:disabled {
-            background-color: #e5a9b7;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-
-        /* Icon styles */
-        button svg {
-            fill: white;
-            width: 18px;
-            height: 18px;
-        }
-
-        .page-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-
-        .dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background-color: #e5a9b7;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .dot.active {
-            background-color: #d94d6a;
-            border-color: #b83a55;
-        }
-
-        /* Floating berries */
-        .berry {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle at center, #f7a1b9 40%, #d94d6a 90%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            filter: drop-shadow(0 2px 3px rgba(217, 77, 106, 0.3));
-            animation: floatBerry 7s ease-in-out infinite;
-            opacity: 0.7;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .berry:nth-child(1) {
-            top: 10%;
-            left: 12%;
-            animation-delay: 0s;
-        }
-
-        .berry:nth-child(2) {
-            top: 80%;
-            left: 18%;
-            animation-delay: 3s;
-        }
-
-        .berry:nth-child(3) {
-            top: 20%;
-            right: 15%;
-            animation-delay: 1.5s;
-        }
-
-        .berry:nth-child(4) {
-            bottom: 15%;
-            right: 20%;
-            animation-delay: 4.5s;
-        }
-
-        @keyframes floatBerry {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: translateY(-15px) scale(1.1);
-                opacity: 0.85;
-            }
-        }
-
-        footer {
-            font-size: 0.9rem;
-            color: #b35370;
-            font-weight: 600;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.8rem;
-            }
-
-            .poem {
-                font-size: 1.5rem;
-                line-height: 2.2rem;
-            }
-
-            button {
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-
-            .berry {
-                width: 35px;
-                height: 35px;
-            }
+        .btn:hover {
+            background-color: #ff3f6f;
         }
     </style>
 </head>
 
 <body>
-    <div class="slideshow-container">
-        <!-- Floating berries -->
-        <div class="berry"></div>
-        <div class="berry"></div>
-        <div class="berry"></div>
-        <div class="berry"></div>
+    <div class="poem-container">
+        <div class="poem-title">Strawberry Clarity</div>
 
-        <!-- Slides -->
-        <div class="slide active" id="slide1">
-            <h1>Strawberry Lips</h1>
-            <p>A love poem</p>
+        <div class="slide active">
+            <strong>🍓 Verse One – "Taste and Truth"</strong>
+            <br><br>
+            Lips that taste like strawberries,
+            And the warmth of your embrace.
+            Takes away all our contraries.
+            My clarity in a world that’s full of haze.
         </div>
 
-        <div class="slide" id="slide2">
-            <div class="poem">
-                Lips that taste like <span class="highlight">strawberries</span>,<br />
-                And the warmth of your embrace.<br />
-                Takes away all our contraries.<br />
-                My clarity in a world that's full of haze.
-            </div>
+        <div class="slide">
+            <strong>✋ Verse Two – "Touch and Truth"</strong>
+            <br><br>
+            Your touch is my weakness,
+            Yet my strength is having you around.
+            I’m in the depth without your presence.
+            What an irreplaceable love can be found?
         </div>
 
-        <div class="slide" id="slide3">
-            <div class="poem">
-                Your touch is my weakness,<br />
-                Yet my strength is having you around.<br />
-                I'm in the depth without your presence.<br />
-                What an irreplaceable love can be found?
-            </div>
-        </div>
-
-        <div class="slide" id="slide4">
-            <h1>Thank You</h1>
-            <p>For experiencing this poem with me</p>
-        </div>
-
-        <!-- Controls -->
-        <div class="controls">
-            <button id="prevBtn" disabled aria-label="Previous slide">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15 18l-6-6 6-6" />
-                </svg> Previous
-            </button>
-            <button id="nextBtn" aria-label="Next slide">
-                Next <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M9 6l6 6-6 6" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Page indicator dots -->
-        <div class="page-indicator" id="pageIndicator">
-            <span class="dot active" data-slide="0" tabindex="0" role="button" aria-label="Slide 1"></span>
-            <span class="dot" data-slide="1" tabindex="0" role="button" aria-label="Slide 2"></span>
-            <span class="dot" data-slide="2" tabindex="0" role="button" aria-label="Slide 3"></span>
-            <span class="dot" data-slide="3" tabindex="0" role="button" aria-label="Slide 4"></span>
-        </div>
-
-        <footer>
-            Click "Next" or use arrow keys to navigate through the poem
-        </footer>
+        <button class="btn" onclick="nextSlide()">Next ➜</button>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.slide');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const dots = document.querySelectorAll('.dot');
-            let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const button = document.querySelector('.btn');
 
-            function showSlide(index) {
-                if (index < 0) index = 0;
-                if (index >= slides.length) index = slides.length - 1;
-
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === index);
-                });
-
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-
-                currentSlide = index;
-
-                prevBtn.disabled = currentSlide === 0;
-                nextBtn.textContent = currentSlide === slides.length - 1 ? 'Restart' : 'Next';
-
-                // Add icons back to buttons
-                if (prevBtn.disabled) {
-                    prevBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg> Previous';
-                } else {
-                    prevBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg> Previous';
-                }
-
-                if (currentSlide === slides.length - 1) {
-                    nextBtn.innerHTML = 'Restart <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg>';
-                } else {
-                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg>';
-                }
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide++;
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+                button.textContent = "Next ➜";
             }
-
-            nextBtn.addEventListener('click', () => {
-                if (currentSlide < slides.length - 1) {
-                    showSlide(currentSlide + 1);
-                } else {
-                    // Restart slideshow
-                    showSlide(0);
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentSlide > 0) {
-                    showSlide(currentSlide - 1);
-                }
-            });
-
-            // Click on dots to jump to slide
-            dots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    showSlide(parseInt(dot.dataset.slide));
-                });
-                dot.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        showSlide(parseInt(dot.dataset.slide));
-                    }
-                });
-            });
-
-            // Keyboard navigation with arrow keys
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight') {
-                    nextBtn.click();
-                } else if (e.key === 'ArrowLeft') {
-                    prevBtn.click();
-                }
-            });
-
-            // Initialize
-            showSlide(0);
-        });
+            slides[currentSlide].classList.add('active');
+            if (currentSlide === slides.length - 1) {
+                button.textContent = "🔁 Start Over";
+            }
+        }
     </script>
 </body>
 
