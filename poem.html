@@ -7,12 +7,15 @@
     <title>Strawberry Clarity Slideshow</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: 'Open Sans', sans-serif;
             background: linear-gradient(to bottom right, #ffb6b9, #dcd6f7);
-            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,10 +26,13 @@
             background-color: #fff;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 30px 40px;
-            max-width: 600px;
+            padding: 40px 30px;
+            max-width: 90%;
+            width: 500px;
             text-align: center;
-            transition: all 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .poem-title {
@@ -41,11 +47,12 @@
             font-size: 1.1em;
             line-height: 1.7;
             white-space: pre-line;
+            min-height: 180px;
         }
 
         .slide.active {
             display: block;
-            animation: fadeIn 1s;
+            animation: fadeIn 0.8s;
         }
 
         @keyframes fadeIn {
@@ -65,7 +72,7 @@
             color: white;
             border: none;
             padding: 12px 20px;
-            margin-top: 25px;
+            margin-top: 30px;
             border-radius: 10px;
             font-size: 1em;
             cursor: pointer;
@@ -74,6 +81,16 @@
 
         .btn:hover {
             background-color: #ff3f6f;
+        }
+
+        @media (max-width: 500px) {
+            .poem-title {
+                font-size: 2em;
+            }
+
+            .poem-container {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
