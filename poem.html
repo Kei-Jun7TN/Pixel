@@ -44,10 +44,12 @@
 
         .slide {
             display: none;
-            font-size: 1.1em;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5em;
             line-height: 1.7;
             white-space: pre-line;
-            min-height: 180px;
+            min-height: 200px;
+            color: #444;
         }
 
         .slide.active {
@@ -77,6 +79,7 @@
             font-size: 1em;
             cursor: pointer;
             transition: background 0.3s;
+            font-family: 'Open Sans', sans-serif;
         }
 
         .btn:hover {
@@ -88,6 +91,10 @@
                 font-size: 2em;
             }
 
+            .slide {
+                font-size: 1.3em;
+            }
+
             .poem-container {
                 padding: 30px 20px;
             }
@@ -97,7 +104,7 @@
 
 <body>
     <div class="poem-container">
-        <div class="poem-title">Strawberry Clarity</div>
+        <div class="poem-title">Strawberry</div>
 
         <div class="slide active">
             <strong>🍓 Verse One – "Taste and Truth"</strong>
@@ -134,7 +141,7 @@
             }
             slides[currentSlide].classList.add('active');
             if (currentSlide === slides.length - 1) {
-                button.textContent = "🔁 Start Over";
+                button.textContent = "Start Over";
             }
         }
     </script>
