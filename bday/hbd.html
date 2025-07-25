@@ -16,7 +16,7 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             background: #0a1128;
             display: flex;
             flex-direction: column;
@@ -27,6 +27,8 @@
             position: relative;
             image-rendering: pixelated;
             touch-action: manipulation;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         @font-face {
@@ -34,150 +36,16 @@
             src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .birthday-title {
-                font-size: 24px;
-                text-shadow: 0 4px 0 #001f54;
-                margin-bottom: 20px;
-                padding: 0 15px;
-                text-align: center;
-            }
-
-            .cake-icon {
-                font-size: 60px;
-                margin-bottom: 20px;
-            }
-
-            .game-button {
-                width: 160px;
-                height: 80px;
-                font-size: 10px;
-            }
-
-            .game-notification {
-                width: 90%;
-                max-width: 350px;
-                padding: 15px;
-            }
-
-            .notification-title {
-                font-size: 16px;
-            }
-
-            .notification-content {
-                font-size: 12px;
-                line-height: 1.6;
-                margin-top: 15px;
-            }
-
-            .notification-btn {
-                padding: 10px;
-                font-size: 10px;
-                height: 36px;
-            }
-
-            .health-bar,
-            .score-display,
-            .level-display {
-                transform: scale(0.8);
-                transform-origin: top left;
-            }
-
-            .achievement-badge {
-                width: 180px;
-                height: 36px;
-            }
-
-            .achievement-badge.active {
-                transform: translateX(-200px);
-            }
-
-            .badge-text {
-                font-size: 8px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .birthday-title {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-
-            .cake-icon {
-                font-size: 50px;
-                margin-bottom: 15px;
-            }
-
-            .game-button {
-                width: 140px;
-                height: 70px;
-                font-size: 9px;
-            }
-
-            .notification-content {
-                font-size: 11px;
-            }
-        }
-
-        /* Game Notification Trigger */
-        .game-button {
-            position: relative;
-            width: 180px;
-            height: 60px;
-            background: #034078;
-            border: 4px solid #1282a2;
-            color: #caf0f8;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            cursor: pointer;
-            text-shadow: 0 2px 0 #001f54;
-            box-shadow:
-                4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10;
+        /* Main content container */
+        .content-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            text-align: center;
-            line-height: 1.4;
-            padding: 0 10px;
-            transform: translate(0, 0);
-        }
-
-        .game-button:hover {
-            background: #1282a2;
-            transform: translate(2px, 2px);
-            box-shadow:
-                2px 2px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
-        }
-
-        .game-button:active {
-            transform: translate(4px, 4px);
-            box-shadow:
-                0px 0px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
-            transition: all 0.1s ease-out;
-        }
-
-        .game-button::before {
-            content: "";
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            border: 2px solid #48cae4;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .game-button:hover::before {
-            opacity: 0.7;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            z-index: 10;
         }
 
         /* Pixel Border */
@@ -244,16 +112,112 @@
             pointer-events: none;
         }
 
-        /* Enhanced Game Notification Modal */
+        /* Birthday specific styles */
+        .cake-icon {
+            font-size: clamp(50px, 10vw, 80px);
+            margin-bottom: clamp(15px, 3vw, 30px);
+            text-shadow: 0 6px 0 #001f54;
+            animation: bounce 2s infinite;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .birthday-title {
+            color: #ff85a2;
+            font-size: clamp(20px, 6vw, 36px);
+            text-shadow: 0 6px 0 #001f54;
+            margin-bottom: clamp(15px, 3vw, 30px);
+            text-align: center;
+            line-height: 1.4;
+            position: relative;
+            z-index: 10;
+            padding: 0 15px;
+        }
+
+        /* Game Button */
+        .game-button {
+            position: relative;
+            width: clamp(140px, 40vw, 180px);
+            height: clamp(60px, 12vw, 80px);
+            background: #034078;
+            border: 4px solid #1282a2;
+            color: #caf0f8;
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(9px, 2.5vw, 12px);
+            cursor: pointer;
+            text-shadow: 0 2px 0 #001f54;
+            box-shadow:
+                4px 4px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            line-height: 1.4;
+            padding: 0 10px;
+            transform: translate(0, 0);
+        }
+
+        .game-button:hover {
+            background: #1282a2;
+            transform: translate(2px, 2px);
+            box-shadow:
+                2px 2px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+        }
+
+        .game-button:active {
+            transform: translate(4px, 4px);
+            box-shadow:
+                0px 0px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+            transition: all 0.1s ease-out;
+        }
+
+        .game-button::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid #48cae4;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-button:hover::before {
+            opacity: 0.7;
+        }
+
+        /* Game Notification Modal */
         .game-notification {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.5);
-            width: 400px;
+            width: min(90vw, 400px);
+            max-height: 80vh;
+            overflow-y: auto;
             background: #001f54;
             border: 6px solid #1282a2;
-            padding: 25px;
+            padding: min(4vw, 25px);
             box-shadow:
                 12px 12px 0 rgba(0, 0, 0, 0.5),
                 inset 0 0 0 4px #034078,
@@ -296,21 +260,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: clamp(10px, 2vw, 20px);
+            padding-bottom: clamp(8px, 1.5vw, 15px);
             border-bottom: 2px solid #1282a2;
         }
 
         .notification-title {
             color: #48cae4;
-            font-size: 20px;
+            font-size: clamp(16px, 4vw, 20px);
             text-shadow: 0 4px 0 #001f54;
             margin: 0;
         }
 
         .notification-icon {
-            width: 24px;
-            height: 24px;
+            width: clamp(20px, 6vw, 24px);
+            height: clamp(20px, 6vw, 24px);
             background-color: #48cae4;
             border: 2px solid #90e0ef;
             box-shadow:
@@ -319,30 +283,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
+            font-size: clamp(10px, 3vw, 12px);
         }
 
         .notification-content {
             color: #caf0f8;
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 25px;
+            font-size: clamp(11px, 3vw, 14px);
+            line-height: 1.6;
+            margin-bottom: clamp(15px, 3vw, 25px);
             text-shadow: 0 2px 0 #001f54;
         }
 
         .notification-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: clamp(8px, 2vw, 15px);
         }
 
         .notification-btn {
-            padding: 12px 24px;
+            padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px);
             background: #034078;
             color: #caf0f8;
             border: 2px solid #1282a2;
             font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
+            font-size: clamp(10px, 2.5vw, 12px);
             cursor: pointer;
             text-shadow: 0 2px 0 #001f54;
             box-shadow:
@@ -354,7 +318,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 40px;
+            height: clamp(36px, 8vw, 40px);
             line-height: 1;
         }
 
@@ -379,6 +343,7 @@
         }
 
         /* Game UI Elements */
+        /* Game UI Elements */
         .game-ui {
             position: absolute;
             width: 100%;
@@ -389,15 +354,15 @@
 
         .health-bar {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 120px;
-            height: 16px;
+            top: clamp(15px, 3vw, 30px);
+            left: clamp(15px, 3vw, 30px);
+            width: clamp(120px, 30vw, 200px);
+            height: clamp(20px, 4vw, 30px);
             background: #001f54;
-            border: 2px solid #1282a2;
+            border: 3px solid #1282a2;
             box-shadow:
-                inset 0 0 0 2px #034078,
-                4px 4px 0 rgba(0, 0, 0, 0.3);
+                inset 0 0 0 3px #034078,
+                6px 6px 0 rgba(0, 0, 0, 0.3);
         }
 
         .health-fill {
@@ -412,20 +377,110 @@
 
         .score-display {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: clamp(15px, 3vw, 30px);
+            right: clamp(15px, 3vw, 30px);
             color: #caf0f8;
-            font-size: 12px;
-            text-shadow: 0 2px 0 #001f54;
+            font-size: clamp(14px, 3.5vw, 18px);
+            text-shadow: 0 3px 0 #001f54;
+            padding: 5px 10px;
+            background: rgba(0, 31, 84, 0.7);
+            border: 2px solid #1282a2;
+            border-radius: 4px;
         }
 
         .level-display {
             position: absolute;
-            top: 50px;
-            left: 20px;
+            top: clamp(50px, 8vw, 70px);
+            left: clamp(15px, 3vw, 30px);
             color: #caf0f8;
-            font-size: 12px;
+            font-size: clamp(14px, 3.5vw, 18px);
+            text-shadow: 0 3px 0 #001f54;
+            padding: 5px 10px;
+            background: rgba(0, 31, 84, 0.7);
+            border: 2px solid #1282a2;
+            border-radius: 4px;
+        }
+
+        /* Achievement Badge */
+        .achievement-badge {
+            position: fixed;
+            top: clamp(10px, 2vw, 20px);
+            right: -220px;
+            width: clamp(160px, 40vw, 200px);
+            height: clamp(30px, 8vw, 40px);
+            background: #001f54;
+            border: 2px solid #1282a2;
+            display: flex;
+            align-items: center;
+            padding: clamp(3px, 1vw, 5px) clamp(5px, 2vw, 10px);
+            box-shadow:
+                4px 4px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #034078;
+            z-index: 50;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .achievement-badge.active {
+            transform: translateX(calc(-1 * clamp(180px, 45vw, 240px)));
+        }
+
+        .badge-icon {
+            width: clamp(24px, 7vw, 30px);
+            height: clamp(24px, 7vw, 30px);
+            background-color: #48cae4;
+            border: 2px solid #90e0ef;
+            margin-right: clamp(5px, 2vw, 10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(12px, 3.5vw, 14px);
+        }
+
+        .badge-text {
+            color: #caf0f8;
+            font-size: clamp(8px, 2vw, 10px);
             text-shadow: 0 2px 0 #001f54;
+        }
+
+        /* Celebrant Image */
+        .celebrant-image-container {
+            width: 100%;
+            display: none;
+            justify-content: center;
+            margin: clamp(10px, 2vw, 15px) 0;
+        }
+
+        .celebrant-image {
+            width: clamp(100px, 30vw, 150px);
+            height: clamp(100px, 30vw, 150px);
+            border: 4px solid #1282a2;
+            box-shadow:
+                0 0 0 4px #001f54,
+                4px 4px 0 rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+            image-rendering: pixelated;
+            filter: contrast(1.2) brightness(1.1);
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        .game-notification.active.has-image .notification-content {
+            margin-top: clamp(10px, 2vw, 15px);
+        }
+
+        /* Progress display */
+        .progress-display {
+            color: #48cae4;
+            font-size: clamp(10px, 2.5vw, 12px);
+            text-align: center;
+            margin-bottom: clamp(10px, 3vw, 20px);
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        /* Next button */
+        .btn-next {
+            background: #06d6a0;
+            border-color: #06d6a0;
         }
 
         /* Confetti */
@@ -443,7 +498,7 @@
         /* Gemstone confetti */
         .gem-confetti {
             position: fixed;
-            font-size: 16px;
+            font-size: clamp(16px, 4vw, 24px);
             opacity: 0;
             z-index: 1;
             pointer-events: none;
@@ -477,54 +532,13 @@
             }
         }
 
-        /* Achievement Badge */
-        .achievement-badge {
-            position: fixed;
-            top: 20px;
-            right: -220px;
-            width: 200px;
-            height: 40px;
-            background: #001f54;
-            border: 2px solid #1282a2;
-            display: flex;
-            align-items: center;
-            padding: 5px 10px;
-            box-shadow:
-                4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #034078;
-            z-index: 50;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .achievement-badge.active {
-            transform: translateX(-240px);
-        }
-
-        .badge-icon {
-            width: 30px;
-            height: 30px;
-            background-color: #48cae4;
-            border: 2px solid #90e0ef;
-            margin-right: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-        }
-
-        .badge-text {
-            color: #caf0f8;
-            font-size: 10px;
-            text-shadow: 0 2px 0 #001f54;
-        }
-
         /* Sound Toggle */
         .sound-toggle {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
+            bottom: clamp(10px, 2vw, 20px);
+            right: clamp(10px, 2vw, 20px);
+            width: clamp(30px, 8vw, 40px);
+            height: clamp(30px, 8vw, 40px);
             background: #001f54;
             border: 2px solid #1282a2;
             border-radius: 50%;
@@ -540,86 +554,110 @@
 
         .sound-toggle i {
             color: #caf0f8;
-            font-size: 16px;
+            font-size: clamp(14px, 4vw, 16px);
             text-shadow: 0 2px 0 #001f54;
         }
 
-        /* Birthday specific styles */
-        .cake-icon {
-            font-size: 80px;
-            margin-bottom: 30px;
-            text-shadow: 0 6px 0 #001f54;
-            animation: bounce 2s infinite;
-            position: relative;
-            z-index: 10;
+        /* Very small screens adjustments */
+        @media (max-width: 350px) {
+            .birthday-title {
+                font-size: 16px;
+                line-height: 1.3;
+            }
+
+            .game-button {
+                height: 50px;
+                font-size: 8px;
+            }
+
+            .notification-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .notification-btn {
+                max-width: 100%;
+                width: 100%;
+            }
         }
 
-        @keyframes bounce {
+        /* Pixel Loader Animation */
+        .pixel-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a1128;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOut 0.5s 3s forwards;
+        }
+
+        .loader-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 30px;
+        }
+
+        .loader-row {
+            display: flex;
+            gap: 4px;
+        }
+
+        .loader-pixel {
+            width: 16px;
+            height: 16px;
+            background: #1282a2;
+            animation: pixelPulse 1.5s infinite;
+            animation-delay: calc(var(--pixel-index) * 0.05s);
+            opacity: 0;
+        }
+
+        .loader-text {
+            font-family: 'Press Start 2P', cursive;
+            color: #48cae4;
+            font-size: 12px;
+            text-shadow: 0 2px 0 #001f54;
+            animation: textGlow 1s infinite alternate;
+        }
+
+        @keyframes pixelPulse {
 
             0%,
             100% {
-                transform: translateY(0);
+                opacity: 0.2;
+                transform: scale(0.8);
             }
 
             50% {
-                transform: translateY(-15px);
+                opacity: 1;
+                transform: scale(1.1);
+                background: #48cae4;
             }
         }
 
-        .birthday-title {
-            color: #ff85a2;
-            font-size: 36px;
-            text-shadow: 0 6px 0 #001f54;
-            margin-bottom: 30px;
-            text-align: center;
-            line-height: 1.4;
-            position: relative;
-            z-index: 10;
+        @keyframes textGlow {
+            from {
+                opacity: 0.7;
+                text-shadow: 0 0 5px #48cae4;
+            }
+
+            to {
+                opacity: 1;
+                text-shadow: 0 0 10px #48cae4, 0 0 20px #48cae4;
+            }
         }
 
-        /* Add this to your CSS */
-        .celebrant-image-container {
-            width: 100%;
-            display: none;
-            justify-content: center;
-            margin: 15px 0;
-        }
-
-        .celebrant-image {
-            width: 150px;
-            height: 150px;
-            border: 4px solid #1282a2;
-            box-shadow:
-                0 0 0 4px #001f54,
-                4px 4px 0 rgba(0, 0, 0, 0.3);
-            object-fit: cover;
-            image-rendering: pixelated;
-        }
-
-        .celebrant-image {
-            /* Existing styles */
-            filter: contrast(1.2) brightness(1.1);
-            image-rendering: -moz-crisp-edges;
-            image-rendering: pixelated;
-        }
-
-        .game-notification.active.has-image .notification-content {
-            margin-top: 15px;
-        }
-
-        /* Progress display */
-        .progress-display {
-            color: #48cae4;
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 0 #001f54;
-        }
-
-        /* Next button */
-        .btn-next {
-            background: #06d6a0;
-            border-color: #06d6a0;
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
@@ -627,6 +665,16 @@
 </head>
 
 <body>
+    <!-- Pixelated Opening Animation -->
+    <div class="pixel-loader" id="pixelLoader">
+        <div class="loader-grid">
+            <div class="loader-row" v-for="row in 8" :key="row">
+                <div class="loader-pixel" v-for="pixel in 16" :key="pixel"></div>
+            </div>
+        </div>
+        <div class="loader-text">LOADING BIRTHDAY...</div>
+    </div>
+
     <!-- Pixel Grid Background -->
     <div class="pixel-grid"></div>
 
@@ -636,9 +684,15 @@
     <div class="pixel-border pixel-border-left"></div>
     <div class="pixel-border pixel-border-right"></div>
 
-    <!-- Birthday Title -->
-    <div class="birthday-title">HAPPY BIRTHDAY<br>PLAYER!</div>
-    <div class="cake-icon">🎂</div>
+    <!-- Main Content Container -->
+    <div class="content-container">
+        <!-- Birthday Title -->
+        <div class="birthday-title">HAPPY BIRTHDAY<br>PLAYER!</div>
+        <div class="cake-icon">🎂</div>
+
+        <!-- Game Button -->
+        <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISHES</button>
+    </div>
 
     <!-- Game UI Elements -->
     <div class="game-ui">
@@ -646,7 +700,7 @@
             <div class="health-fill" id="healthFill"></div>
         </div>
         <div class="score-display" id="scoreDisplay">JOY: 100%</div>
-        <div class="level-display" id="levelDisplay">AGE: 25</div>
+        <div class="level-display" id="levelDisplay">AGE: 24</div>
     </div>
 
     <!-- Achievement Badge -->
@@ -654,9 +708,6 @@
         <div class="badge-icon">🏆</div>
         <div class="badge-text">BIRTHDAY ACHIEVEMENT!</div>
     </div>
-
-    <!-- Game Button -->
-    <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISH</button>
 
     <!-- Game Notification -->
     <div class="game-notification" id="gameNotification">
@@ -679,6 +730,23 @@
     </div>
 
     <script>
+        // Initialize loader pixels
+        document.addEventListener('DOMContentLoaded', function () {
+            const loader = document.getElementById('pixelLoader');
+            const pixels = document.querySelectorAll('.loader-pixel');
+
+            // Set pixel animation delays
+            pixels.forEach((pixel, index) => {
+                pixel.style.setProperty('--pixel-index', index);
+            });
+
+            // Remove loader after animation completes
+            setTimeout(() => {
+                loader.remove();
+                initBirthday(); // Start your existing birthday animation
+            }, 3500);
+        });
+
         const gameButton = document.getElementById('gameButton');
         const gameNotification = document.getElementById('gameNotification');
         const restartBtn = document.getElementById('restartBtn');
