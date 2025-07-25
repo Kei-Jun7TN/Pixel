@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="preload" href="assets/gems/red1.png" as="image">
+    <link rel="preload" href="assets/gems/red2.png" as="image">
+    <link rel="preload" href="assets/gems/orange1.png" as="image">
+    <link rel="preload" href="assets/gems/orange2.png" as="image">
+    <link rel="preload" href="assets/gems/green1.png" as="image">
+    <link rel="preload" href="assets/gems/green2.png" as="image">
+    <link rel="preload" href="assets/gems/spark1.png" as="image">
+    <link rel="preload" href="assets/gems/spark2.png" as="image">
+    <title>8-Bit Birthday Greeting</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #0a1128;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden;
+            position: relative;
+            image-rendering: pixelated;
+            touch-action: manipulation;
+        }
+
+        @font-face {
+            font-family: 'Press Start 2P';
+            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .birthday-title {
+                font-size: 24px;
+                text-shadow: 0 4px 0 #001f54;
+                margin-bottom: 20px;
+                padding: 0 15px;
+                text-align: center;
+            }
+
+            .cake-icon {
+                font-size: 60px;
+                margin-bottom: 20px;
+            }
+
+            .game-button {
+                width: 160px;
+                height: 80px;
+                font-size: 10px;
+            }
+
+            .game-notification {
+                width: 90%;
+                max-width: 350px;
+                padding: 15px;
+            }
+
+            .notification-title {
+                font-size: 16px;
+            }
+
+            .notification-content {
+                font-size: 12px;
+                line-height: 1.6;
+                margin-top: 15px;
+            }
+
+            .notification-btn {
+                padding: 10px;
+                font-size: 10px;
+                height: 36px;
+            }
+
+            .health-bar,
+            .score-display,
+            .level-display {
+                transform: scale(0.8);
+                transform-origin: top left;
+            }
+
+            .achievement-badge {
+                width: 180px;
+                height: 36px;
+            }
+
+            .achievement-badge.active {
+                transform: translateX(-200px);
+            }
+
+            .badge-text {
+                font-size: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .birthday-title {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .cake-icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
+
+            .game-button {
+                width: 140px;
+                height: 70px;
+                font-size: 9px;
+            }
+
+            .notification-content {
+                font-size: 11px;
+            }
+        }
+
+        /* Game Notification Trigger */
+        .game-button {
+            position: relative;
+            width: 180px;
+            height: 60px;
+            background: #034078;
+            border: 4px solid #1282a2;
+            color: #caf0f8;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            text-shadow: 0 2px 0 #001f54;
+            box-shadow:
+                4px 4px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            line-height: 1.4;
+            padding: 0 10px;
+            transform: translate(0, 0);
+        }
+
+        .game-button:hover {
+            background: #1282a2;
+            transform: translate(2px, 2px);
+            box-shadow:
+                2px 2px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+        }
+
+        .game-button:active {
+            transform: translate(4px, 4px);
+            box-shadow:
+                0px 0px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+            transition: all 0.1s ease-out;
+        }
+
+        .game-button::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid #48cae4;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-button:hover::before {
+            opacity: 0.7;
+        }
+
+        /* Pixel Border */
+        .pixel-border {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pixel-border-top,
+        .pixel-border-bottom {
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(to right,
+                    #48cae4,
+                    #48cae4 8px,
+                    transparent 8px,
+                    transparent 16px);
+        }
+
+        .pixel-border-left,
+        .pixel-border-right {
+            height: 100%;
+            width: 8px;
+            background: repeating-linear-gradient(to bottom,
+                    #48cae4,
+                    #48cae4 8px,
+                    transparent 8px,
+                    transparent 16px);
+        }
+
+        .pixel-border-top {
+            top: 0;
+            left: 0;
+        }
+
+        .pixel-border-bottom {
+            bottom: 0;
+            left: 0;
+        }
+
+        .pixel-border-left {
+            top: 0;
+            left: 0;
+        }
+
+        .pixel-border-right {
+            top: 0;
+            right: 0;
+        }
+
+        /* Pixel Grid Pattern */
+        .pixel-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(72, 202, 228, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(72, 202, 228, 0.05) 1px, transparent 1px);
+            background-size: 8px 8px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced Game Notification Modal */
+        .game-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            width: 400px;
+            background: #001f54;
+            border: 6px solid #1282a2;
+            padding: 25px;
+            box-shadow:
+                12px 12px 0 rgba(0, 0, 0, 0.5),
+                inset 0 0 0 4px #034078,
+                inset 0 0 0 8px #001f54;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transform-origin: center;
+            transition:
+                opacity 0.3s ease-out,
+                transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+        .game-notification.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+            animation: modalBounce 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+        @keyframes modalBounce {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+
+            70% {
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1282a2;
+        }
+
+        .notification-title {
+            color: #48cae4;
+            font-size: 20px;
+            text-shadow: 0 4px 0 #001f54;
+            margin: 0;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #48cae4;
+            border: 2px solid #90e0ef;
+            box-shadow:
+                0 0 0 2px #001f54,
+                2px 2px 0 rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .notification-content {
+            color: #caf0f8;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        .notification-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .notification-btn {
+            padding: 12px 24px;
+            background: #034078;
+            color: #caf0f8;
+            border: 2px solid #1282a2;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            text-shadow: 0 2px 0 #001f54;
+            box-shadow:
+                4px 4px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+            transition: all 0.1s;
+            flex: 1;
+            max-width: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            line-height: 1;
+        }
+
+        .notification-btn:hover {
+            background: #1282a2;
+            transform: translate(2px, 2px);
+            box-shadow:
+                2px 2px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+        }
+
+        .notification-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow:
+                0px 0px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #001f54;
+        }
+
+        .btn-accent {
+            background: #1282a2;
+            border-color: #48cae4;
+        }
+
+        /* Game UI Elements */
+        .game-ui {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .health-bar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: 16px;
+            background: #001f54;
+            border: 2px solid #1282a2;
+            box-shadow:
+                inset 0 0 0 2px #034078,
+                4px 4px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .health-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #ef476f, #ffd166);
+            transition: width 0.3s;
+        }
+
+        .score-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #caf0f8;
+            font-size: 12px;
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        .level-display {
+            position: absolute;
+            top: 50px;
+            left: 20px;
+            color: #caf0f8;
+            font-size: 12px;
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: confettiFall 5s linear forwards;
+            image-rendering: pixelated;
+        }
+
+        /* Gemstone confetti */
+        .gem-confetti {
+            position: fixed;
+            font-size: 16px;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: confettiFall 5s linear forwards;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Pixel Explosion */
+        @keyframes pixel-explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Achievement Badge */
+        .achievement-badge {
+            position: fixed;
+            top: 20px;
+            right: -220px;
+            width: 200px;
+            height: 40px;
+            background: #001f54;
+            border: 2px solid #1282a2;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            box-shadow:
+                4px 4px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #034078;
+            z-index: 50;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .achievement-badge.active {
+            transform: translateX(-240px);
+        }
+
+        .badge-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #48cae4;
+            border: 2px solid #90e0ef;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .badge-text {
+            color: #caf0f8;
+            font-size: 10px;
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        /* Sound Toggle */
+        .sound-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #001f54;
+            border: 2px solid #1282a2;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow:
+                4px 4px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px #034078;
+            z-index: 10;
+        }
+
+        .sound-toggle i {
+            color: #caf0f8;
+            font-size: 16px;
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        /* Birthday specific styles */
+        .cake-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            text-shadow: 0 6px 0 #001f54;
+            animation: bounce 2s infinite;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .birthday-title {
+            color: #ff85a2;
+            font-size: 36px;
+            text-shadow: 0 6px 0 #001f54;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.4;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Add this to your CSS */
+        .celebrant-image-container {
+            width: 100%;
+            display: none;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .celebrant-image {
+            width: 150px;
+            height: 150px;
+            border: 4px solid #1282a2;
+            box-shadow:
+                0 0 0 4px #001f54,
+                4px 4px 0 rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .celebrant-image {
+            /* Existing styles */
+            filter: contrast(1.2) brightness(1.1);
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        .game-notification.active.has-image .notification-content {
+            margin-top: 15px;
+        }
+
+        /* Progress display */
+        .progress-display {
+            color: #48cae4;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 0 #001f54;
+        }
+
+        /* Next button */
+        .btn-next {
+            background: #06d6a0;
+            border-color: #06d6a0;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Pixel Grid Background -->
+    <div class="pixel-grid"></div>
+
+    <!-- Pixel Border Elements -->
+    <div class="pixel-border pixel-border-top"></div>
+    <div class="pixel-border pixel-border-bottom"></div>
+    <div class="pixel-border pixel-border-left"></div>
+    <div class="pixel-border pixel-border-right"></div>
+
+    <!-- Birthday Title -->
+    <div class="birthday-title">HAPPY BIRTHDAY<br>PLAYER!</div>
+    <div class="cake-icon">🎂</div>
+
+    <!-- Game UI Elements -->
+    <div class="game-ui">
+        <div class="health-bar">
+            <div class="health-fill" id="healthFill"></div>
+        </div>
+        <div class="score-display" id="scoreDisplay">JOY: 100%</div>
+        <div class="level-display" id="levelDisplay">AGE: 25</div>
+    </div>
+
+    <!-- Achievement Badge -->
+    <div class="achievement-badge" id="achievementBadge">
+        <div class="badge-icon">🏆</div>
+        <div class="badge-text">BIRTHDAY ACHIEVEMENT!</div>
+    </div>
+
+    <!-- Game Button -->
+    <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISH</button>
+
+    <!-- Game Notification -->
+    <div class="game-notification" id="gameNotification">
+        <div class="notification-header">
+            <h2 class="notification-title">BIRTHDAY MESSAGE!</h2>
+            <div class="notification-icon">🎉</div>
+        </div>
+        <div class="celebrant-image-container" id="celebrantImageContainer" style="display: none;">
+            <img src="assets/gems/wow.jpg" alt="Birthday Celebrant" class="celebrant-image">
+        </div>
+        <div class="progress-display" id="progressDisplay">1/8</div>
+        <div class="notification-content" id="notificationContent">
+            CONGRATULATIONS! YOU'VE LEVELED UP IN LIFE! WISHING YOU AN AMAZING YEAR AHEAD FILLED WITH JOY, SUCCESS, AND
+            PLENTY OF POWER-UPS!
+        </div>
+        <div class="notification-buttons">
+            <button class="notification-btn btn-accent" id="restartBtn">RESTART</button>
+            <button class="notification-btn btn-next" id="nextBtn">NEXT</button>
+        </div>
+    </div>
+
+    <script>
+        const gameButton = document.getElementById('gameButton');
+        const gameNotification = document.getElementById('gameNotification');
+        const restartBtn = document.getElementById('restartBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const healthFill = document.getElementById('healthFill');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const achievementBadge = document.getElementById('achievementBadge');
+        const notificationContent = document.getElementById('notificationContent');
+        const progressDisplay = document.getElementById('progressDisplay');
+        const cakeIcon = document.querySelector('.cake-icon');
+
+        // Birthday state
+        let birthdayState = {
+            joy: 100,
+            age: 25,
+            currentMessageIndex: 0,
+            messages: [
+                { text: "HAPPY BIRTHDAY! MAY YOUR DAY BE FILLED WITH POWER-UPS AND EXTRA LIVES!", showImage: false },
+                { text: "LEVEL UP! ANOTHER YEAR OF AWESOMENESS UNLOCKED!", showImage: false },
+                { text: "ACHIEVEMENT UNLOCKED: ANOTHER TRIP AROUND THE SUN!", showImage: false },
+                { text: "SPECIAL BIRTHDAY POWER: +100 HAPPINESS STATS!", showImage: false },
+                { text: "YOU'VE EARNED THE 'AMAZING PERSON' BADGE FOR ANOTHER YEAR!", showImage: false },
+                { text: "BIRTHDAY BONUS: UNLIMITED CAKE FOR TODAY!", showImage: false },
+                { text: "YOUR WISDOM STAT INCREASED BY +5 THIS YEAR!", showImage: false },
+                { text: "NEW SKILL UNLOCKED: ANOTHER YEAR OF BEING AWESOME!", showImage: true }
+            ],
+            gemstones: ["💎", "💠", "🔴", "🟡"]
+        };
+
+        // Initialize birthday greeting
+        function initBirthday() {
+            updateBirthdayUI();
+
+            // Start with a little animation
+            setTimeout(() => {
+                cakeIcon.style.animation = 'none';
+                setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite', 10);
+            }, 1000);
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 60; i++) {
+                const gem = document.createElement('img');
+                gem.className = 'gem-confetti';
+                gem.src = `assets/gems/${['red1', 'red2', 'orange1', 'orange2', 'green1', 'green2', 'spark1', 'spark2'][Math.floor(Math.random() * 8)]}.png`;
+                gem.style.left = Math.random() * 100 + 'vw';
+                gem.style.top = '-30px';
+                gem.style.animationDuration = (4 + Math.random() * 3) + 's';
+                gem.style.animationDelay = Math.random() * 1.5 + 's';
+                gem.style.width = '24px';
+                gem.style.height = '24px';
+                gem.style.position = 'fixed';
+                gem.style.zIndex = '1';
+                gem.style.imageRendering = 'pixelated';
+                document.body.appendChild(gem);
+
+                setTimeout(() => gem.remove(), 5000);
+            }
+
+            for (let i = 0; i < 60; i++) {
+                const gem = document.createElement('div');
+                gem.className = 'gem-confetti';
+                gem.style.left = Math.random() * 100 + 'vw';
+                gem.style.top = '-30px';
+                gem.style.animationDuration = (4 + Math.random() * 3) + 's';
+                gem.style.animationDelay = Math.random() * 1.5 + 's';
+                gem.textContent = birthdayState.gemstones[Math.floor(Math.random() * birthdayState.gemstones.length)];
+                gem.style.position = 'fixed';
+                gem.style.zIndex = '1';
+                gem.style.fontSize = (20 + Math.random() * 20) + 'px';
+                gem.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`;
+
+                document.body.appendChild(gem);
+                setTimeout(() => gem.remove(), 5000);
+            }
+        }
+
+        function createPixelExplosion() {
+            const colors = ['#ff85a2', '#ffd166', '#06d6a0', '#118ab2'];
+            for (let i = 0; i < 50; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                pixel.style.left = '50%';
+                pixel.style.top = '50%';
+                pixel.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                pixel.style.position = 'fixed';
+                pixel.style.zIndex = '1';
+
+                const size = 4 + Math.floor(Math.random() * 3) * 4;
+                pixel.style.width = `${size}px`;
+                pixel.style.height = `${size}px`;
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 100;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                pixel.style.animation = `pixel-explode ${0.5 + Math.random()}s forwards`;
+                pixel.style.setProperty('--x', `${x}px`);
+                pixel.style.setProperty('--y', `${y}px`);
+
+                document.body.appendChild(pixel);
+                setTimeout(() => pixel.remove(), 1000);
+            }
+        }
+
+        function updateBirthdayUI() {
+            birthdayState.joy = 80 + Math.floor(Math.random() * 20);
+            healthFill.style.width = `${birthdayState.joy}%`;
+            healthFill.style.background = `linear-gradient(to right, #ef476f, #ffd166)`;
+            scoreDisplay.textContent = `JOY: ${birthdayState.joy}%`;
+            levelDisplay.textContent = `AGE: ${birthdayState.age}`;
+        }
+
+        function showAchievement() {
+            achievementBadge.classList.add('active');
+            setTimeout(() => achievementBadge.classList.remove('active'), 3000);
+        }
+
+        function playMessage(index) {
+            // Get the message at the specified index
+            const message = birthdayState.messages[index];
+
+            // Update the notification content
+            notificationContent.textContent = message.text;
+
+            // Update progress display
+            progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
+
+            // Show or hide image based on the message
+            const imageContainer = document.getElementById('celebrantImageContainer');
+            if (message.showImage) {
+                imageContainer.style.display = 'flex';
+                gameNotification.classList.add('has-image');
+                // Show achievement badge only when image appears
+                showAchievement();
+            } else {
+                imageContainer.style.display = 'none';
+                gameNotification.classList.remove('has-image');
+            }
+        }
+
+        function showNextMessage() {
+            // Move to the next message (or loop back to the first)
+            birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
+            playMessage(birthdayState.currentMessageIndex);
+            createConfetti();
+        }
+
+        function resetExperience() {
+            gameNotification.classList.remove('active');
+            birthdayState.currentMessageIndex = 0;
+            updateBirthdayUI();
+        }
+
+        // Event listeners
+        gameButton.addEventListener('click', () => {
+            createPixelExplosion();
+            updateBirthdayUI();
+
+            setTimeout(() => {
+                playMessage(birthdayState.currentMessageIndex);
+                createConfetti();
+
+                setTimeout(() => {
+                    gameNotification.classList.add('active');
+                }, 100);
+            }, 400);
+        });
+
+        restartBtn.addEventListener('click', resetExperience);
+
+        nextBtn.addEventListener('click', showNextMessage);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') gameButton.click();
+        });
+
+        // Initialize on user interaction
+        document.addEventListener('click', function initOnInteraction() {
+            initBirthday();
+            document.removeEventListener('click', initOnInteraction);
+        }, { once: true });
+    </script>
+
+</body>
+
+</html>
