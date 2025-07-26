@@ -680,273 +680,307 @@
 
 <body>
     <!-- Pixelated Opening Animation -->
-    <div class="pixel-loader" id="pixelLoader">
-        <div class="loader-grid">
-            <div class="loader-row" v-for="row in 8" :key="row">
-                <div class="loader-pixel" v-for="pixel in 16" :key="pixel"></div>
+
+    <body>
+        <!-- Pixelated Opening Animation -->
+        <div class="pixel-loader" id="pixelLoader">
+            <div class="loader-grid">
+                <div class="loader-row">
+                    <div class="loader-pixel" style="--pixel-index: 0"></div>
+                    <div class="loader-pixel" style="--pixel-index: 1"></div>
+                    <div class="loader-pixel" style="--pixel-index: 2"></div>
+                    <div class="loader-pixel" style="--pixel-index: 3"></div>
+                    <div class="loader-pixel" style="--pixel-index: 4"></div>
+                    <div class="loader-pixel" style="--pixel-index: 5"></div>
+                    <div class="loader-pixel" style="--pixel-index: 6"></div>
+                    <div class="loader-pixel" style="--pixel-index: 7"></div>
+                </div>
+                <div class="loader-row">
+                    <div class="loader-pixel" style="--pixel-index: 8"></div>
+                    <div class="loader-pixel" style="--pixel-index: 9"></div>
+                    <div class="loader-pixel" style="--pixel-index: 10"></div>
+                    <div class="loader-pixel" style="--pixel-index: 11"></div>
+                    <div class="loader-pixel" style="--pixel-index: 12"></div>
+                    <div class="loader-pixel" style="--pixel-index: 13"></div>
+                    <div class="loader-pixel" style="--pixel-index: 14"></div>
+                    <div class="loader-pixel" style="--pixel-index: 15"></div>
+                </div>
+                <div class="loader-row">
+                    <div class="loader-pixel" style="--pixel-index: 16"></div>
+                    <div class="loader-pixel" style="--pixel-index: 17"></div>
+                    <div class="loader-pixel" style="--pixel-index: 18"></div>
+                    <div class="loader-pixel" style="--pixel-index: 19"></div>
+                    <div class="loader-pixel" style="--pixel-index: 20"></div>
+                    <div class="loader-pixel" style="--pixel-index: 21"></div>
+                    <div class="loader-pixel" style="--pixel-index: 22"></div>
+                    <div class="loader-pixel" style="--pixel-index: 23"></div>
+                </div>
+                <div class="loader-row">
+                    <div class="loader-pixel" style="--pixel-index: 24"></div>
+                    <div class="loader-pixel" style="--pixel-index: 25"></div>
+                    <div class="loader-pixel" style="--pixel-index: 26"></div>
+                    <div class="loader-pixel" style="--pixel-index: 27"></div>
+                    <div class="loader-pixel" style="--pixel-index: 28"></div>
+                    <div class="loader-pixel" style="--pixel-index: 29"></div>
+                    <div class="loader-pixel" style="--pixel-index: 30"></div>
+                    <div class="loader-pixel" style="--pixel-index: 31"></div>
+                </div>
+            </div>
+            <div class="loader-text">LOADING BIRTHDAY...</div>
+        </div>
+
+        <!-- Pixel Grid Background -->
+        <div class="pixel-grid"></div>
+
+        <!-- Pixel Border Elements -->
+        <div class="pixel-border pixel-border-top"></div>
+        <div class="pixel-border pixel-border-bottom"></div>
+        <div class="pixel-border pixel-border-left"></div>
+        <div class="pixel-border pixel-border-right"></div>
+
+        <!-- Main Content Container -->
+        <div class="content-container">
+            <!-- Birthday Title -->
+            <div class="birthday-title">HAPPY BIRTHDAY<br>PLAYER!</div>
+            <div class="cake-icon">🎂</div>
+
+            <!-- Game Button -->
+            <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISHES</button>
+        </div>
+
+        <!-- Game UI Elements -->
+        <div class="game-ui">
+            <div class="health-bar">
+                <div class="health-fill" id="healthFill"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay">JOY: 100%</div>
+            <div class="level-display" id="levelDisplay">AGE: 24</div>
+        </div>
+
+        <!-- Achievement Badge -->
+        <div class="achievement-badge" id="achievementBadge">
+            <div class="badge-icon">🏆</div>
+            <div class="badge-text">BIRTHDAY ACHIEVEMENT!</div>
+        </div>
+
+        <!-- Game Notification -->
+        <div class="game-notification" id="gameNotification">
+            <div class="notification-header">
+                <h2 class="notification-title">BIRTHDAY MESSAGE!</h2>
+                <div class="notification-icon">🎉</div>
+            </div>
+            <div class="celebrant-image-container" id="celebrantImageContainer" style="display: none;">
+                <img src="assets/gems/wow.jpg" alt="Birthday Celebrant" class="celebrant-image">
+            </div>
+            <div class="progress-display" id="progressDisplay">1/8</div>
+            <div class="notification-content" id="notificationContent">
+                CONGRATULATIONS! YOU'VE LEVELED UP IN LIFE! WISHING YOU AN AMAZING YEAR AHEAD FILLED WITH JOY, SUCCESS,
+                AND
+                PLENTY OF POWER-UPS!
+            </div>
+            <div class="notification-buttons">
+                <button class="notification-btn btn-accent" id="restartBtn">RESTART</button>
+                <button class="notification-btn btn-next" id="nextBtn">NEXT</button>
             </div>
         </div>
-        <div class="loader-text">LOADING BIRTHDAY...</div>
-    </div>
 
-    <!-- Pixel Grid Background -->
-    <div class="pixel-grid"></div>
+        <script>
+            // Initialize loader pixels
+            document.addEventListener('DOMContentLoaded', function () {
+                const loader = document.getElementById('pixelLoader');
 
-    <!-- Pixel Border Elements -->
-    <div class="pixel-border pixel-border-top"></div>
-    <div class="pixel-border pixel-border-bottom"></div>
-    <div class="pixel-border pixel-border-left"></div>
-    <div class="pixel-border pixel-border-right"></div>
-
-    <!-- Main Content Container -->
-    <div class="content-container">
-        <!-- Birthday Title -->
-        <div class="birthday-title">HAPPY BIRTHDAY<br>PLAYER!</div>
-        <div class="cake-icon">🎂</div>
-
-        <!-- Game Button -->
-        <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISHES</button>
-    </div>
-
-    <!-- Game UI Elements -->
-    <div class="game-ui">
-        <div class="health-bar">
-            <div class="health-fill" id="healthFill"></div>
-        </div>
-        <div class="score-display" id="scoreDisplay">JOY: 100%</div>
-        <div class="level-display" id="levelDisplay">AGE: 24</div>
-    </div>
-
-    <!-- Achievement Badge -->
-    <div class="achievement-badge" id="achievementBadge">
-        <div class="badge-icon">🏆</div>
-        <div class="badge-text">BIRTHDAY ACHIEVEMENT!</div>
-    </div>
-
-    <!-- Game Notification -->
-    <div class="game-notification" id="gameNotification">
-        <div class="notification-header">
-            <h2 class="notification-title">BIRTHDAY MESSAGE!</h2>
-            <div class="notification-icon">🎉</div>
-        </div>
-        <div class="celebrant-image-container" id="celebrantImageContainer" style="display: none;">
-            <img src="assets/gems/wow.jpg" alt="Birthday Celebrant" class="celebrant-image">
-        </div>
-        <div class="progress-display" id="progressDisplay">1/8</div>
-        <div class="notification-content" id="notificationContent">
-            CONGRATULATIONS! YOU'VE LEVELED UP IN LIFE! WISHING YOU AN AMAZING YEAR AHEAD FILLED WITH JOY, SUCCESS, AND
-            PLENTY OF POWER-UPS!
-        </div>
-        <div class="notification-buttons">
-            <button class="notification-btn btn-accent" id="restartBtn">RESTART</button>
-            <button class="notification-btn btn-next" id="nextBtn">NEXT</button>
-        </div>
-    </div>
-
-    <script>
-        // Initialize loader pixels
-        document.addEventListener('DOMContentLoaded', function () {
-            const loader = document.getElementById('pixelLoader');
-            const pixels = document.querySelectorAll('.loader-pixel');
-
-            // Set pixel animation delays
-            pixels.forEach((pixel, index) => {
-                pixel.style.setProperty('--pixel-index', index);
+                // Remove loader after animation completes
+                setTimeout(() => {
+                    loader.remove();
+                }, 3500);
             });
 
-            // Remove loader after animation completes
-            setTimeout(() => {
-                loader.remove();
-                initBirthday(); // Start your existing birthday animation
-            }, 3500);
-        });
+            const gameButton = document.getElementById('gameButton');
+            const gameNotification = document.getElementById('gameNotification');
+            const restartBtn = document.getElementById('restartBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const healthFill = document.getElementById('healthFill');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const levelDisplay = document.getElementById('levelDisplay');
+            const achievementBadge = document.getElementById('achievementBadge');
+            const notificationContent = document.getElementById('notificationContent');
+            const progressDisplay = document.getElementById('progressDisplay');
+            const cakeIcon = document.querySelector('.cake-icon');
 
-        const gameButton = document.getElementById('gameButton');
-        const gameNotification = document.getElementById('gameNotification');
-        const restartBtn = document.getElementById('restartBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const healthFill = document.getElementById('healthFill');
-        const scoreDisplay = document.getElementById('scoreDisplay');
-        const levelDisplay = document.getElementById('levelDisplay');
-        const achievementBadge = document.getElementById('achievementBadge');
-        const notificationContent = document.getElementById('notificationContent');
-        const progressDisplay = document.getElementById('progressDisplay');
-        const cakeIcon = document.querySelector('.cake-icon');
+            // Birthday state
+            let birthdayState = {
+                joy: 100,
+                age: 25,
+                currentMessageIndex: 0,
+                messages: [
+                    { text: "HAPPY BIRTHDAY KUYA GEM! nawa'y ang araw na ito ay maging makasaysayan at hindi mo makakalimutang araw para sayo, mabuhay ka hanggang sa gusto at makuha mo na sana lahat nang devil fruit sa one piece at skin sa emel. \n\n-Vanjo", showImage: false },
+                    { text: "happy birthday ka. gem✨️✨️✨️ huwag sana mawala yung zestful attitude mo sa pagtuturo bilang mwa/future minister✨️✨️✨️ - Mafia", showImage: false },
+                    { text: "Happy happy birthday po Ka. Gem, wish you po more birthday to come and malusog na pangangatawan para patuloy ka pong Maka tupad pa sa mga tungkulin at gampanin niyo po - Waniwan", showImage: false },
+                    { text: "Maligayang kaarawan po, nawa'y mabuhay kayo hangga't gusto n'yo. At nawa'y mag bagong buhay na kayo, h'wag na po pumangatl. Joke lang po...Hehehehe - Bebe", showImage: false },
+                    { text: "Happy3x Birthday Ka Gem ILOVEYOU mahal na mahal kita xd mwua2x chup2x - Kuys Butog", showImage: false },
+                    { text: "BIRTHDAY BONUS: UNLIMITED CAKE FOR TODAY!", showImage: false },
+                    { text: "YOUR WISDOM STAT INCREASED BY +5 THIS YEAR!", showImage: false },
+                    { text: "NEW SKILL UNLOCKED: ANOTHER YEAR OF BEING AWESOME!", showImage: true }
+                ],
+                gemstones: ["💎", "💠", "🔴"]
+            };
 
-        // Birthday state
-        let birthdayState = {
-            joy: 100,
-            age: 25,
-            currentMessageIndex: 0,
-            messages: [
-                { text: "HAPPY BIRTHDAY KUYA GEM! nawa'y ang araw na ito ay maging makasaysayan at hindi mo makakalimutang araw para sayo, mabuhay ka hanggang sa gusto at makuha mo na sana lahat nang devil fruit sa one piece at skin sa emel. \n\n-Vanjo", showImage: false },
-                { text: "happy birthday ka. gem✨️✨️✨️ huwag sana mawala yung zestful attitude mo sa pagtuturo bilang mwa/future minister✨️✨️✨️ - Mafia", showImage: false },
-                { text: "ACHIEVEMENT UNLOCKED: ANOTHER TRIP AROUND THE SUN!", showImage: false },
-                { text: "SPECIAL BIRTHDAY POWER: +100 HAPPINESS STATS!", showImage: false },
-                { text: "YOU'VE EARNED THE 'AMAZING PERSON' BADGE FOR ANOTHER YEAR!", showImage: false },
-                { text: "BIRTHDAY BONUS: UNLIMITED CAKE FOR TODAY!", showImage: false },
-                { text: "YOUR WISDOM STAT INCREASED BY +5 THIS YEAR!", showImage: false },
-                { text: "NEW SKILL UNLOCKED: ANOTHER YEAR OF BEING AWESOME!", showImage: true }
-            ],
-            gemstones: ["💎", "💠", "🔴"]
-        };
+            // Initialize birthday greeting
+            function initBirthday() {
+                updateBirthdayUI();
 
-        // Initialize birthday greeting
-        function initBirthday() {
-            updateBirthdayUI();
-
-            // Start with a little animation
-            setTimeout(() => {
-                cakeIcon.style.animation = 'none';
-                setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite', 10);
-            }, 1000);
-        }
-
-        function createConfetti() {
-            for (let i = 0; i < 60; i++) {
-                const gem = document.createElement('img');
-                gem.className = 'gem-confetti';
-                gem.src = `assets/gems/${['red1', 'red2', 'orange1', 'orange2', 'green1', 'green2', 'spark1', 'spark2'][Math.floor(Math.random() * 8)]}.png`;
-                gem.style.left = Math.random() * 100 + 'vw';
-                gem.style.top = '-30px';
-                gem.style.animationDuration = (4 + Math.random() * 3) + 's';
-                gem.style.animationDelay = Math.random() * 1.5 + 's';
-                gem.style.width = '24px';
-                gem.style.height = '24px';
-                gem.style.position = 'fixed';
-                gem.style.zIndex = '1';
-                gem.style.imageRendering = 'pixelated';
-                document.body.appendChild(gem);
-
-                setTimeout(() => gem.remove(), 5000);
+                // Start with a little animation
+                setTimeout(() => {
+                    cakeIcon.style.animation = 'none';
+                    setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite', 10);
+                }, 1000);
             }
 
-            for (let i = 0; i < 60; i++) {
-                const gem = document.createElement('div');
-                gem.className = 'gem-confetti';
-                gem.style.left = Math.random() * 100 + 'vw';
-                gem.style.top = '-30px';
-                gem.style.animationDuration = (4 + Math.random() * 3) + 's';
-                gem.style.animationDelay = Math.random() * 1.5 + 's';
-                gem.textContent = birthdayState.gemstones[Math.floor(Math.random() * birthdayState.gemstones.length)];
-                gem.style.position = 'fixed';
-                gem.style.zIndex = '1';
-                gem.style.fontSize = (20 + Math.random() * 20) + 'px';
-                gem.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`;
+            function createConfetti() {
+                for (let i = 0; i < 60; i++) {
+                    const gem = document.createElement('img');
+                    gem.className = 'gem-confetti';
+                    gem.src = `assets/gems/${['red1', 'red2', 'orange1', 'orange2', 'green1', 'green2', 'spark1', 'spark2'][Math.floor(Math.random() * 8)]}.png`;
+                    gem.style.left = Math.random() * 100 + 'vw';
+                    gem.style.top = '-30px';
+                    gem.style.animationDuration = (4 + Math.random() * 3) + 's';
+                    gem.style.animationDelay = Math.random() * 1.5 + 's';
+                    gem.style.width = '24px';
+                    gem.style.height = '24px';
+                    gem.style.position = 'fixed';
+                    gem.style.zIndex = '1';
+                    gem.style.imageRendering = 'pixelated';
+                    document.body.appendChild(gem);
 
-                document.body.appendChild(gem);
-                setTimeout(() => gem.remove(), 5000);
+                    setTimeout(() => gem.remove(), 5000);
+                }
+
+                for (let i = 0; i < 60; i++) {
+                    const gem = document.createElement('div');
+                    gem.className = 'gem-confetti';
+                    gem.style.left = Math.random() * 100 + 'vw';
+                    gem.style.top = '-30px';
+                    gem.style.animationDuration = (4 + Math.random() * 3) + 's';
+                    gem.style.animationDelay = Math.random() * 1.5 + 's';
+                    gem.textContent = birthdayState.gemstones[Math.floor(Math.random() * birthdayState.gemstones.length)];
+                    gem.style.position = 'fixed';
+                    gem.style.zIndex = '1';
+                    gem.style.fontSize = (20 + Math.random() * 20) + 'px';
+                    gem.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`;
+
+                    document.body.appendChild(gem);
+                    setTimeout(() => gem.remove(), 5000);
+                }
             }
-        }
 
-        function createPixelExplosion() {
-            const colors = ['#ff85a2', '#ffd166', '#06d6a0', '#118ab2'];
-            for (let i = 0; i < 50; i++) {
-                const pixel = document.createElement('div');
-                pixel.className = 'pixel';
-                pixel.style.left = '50%';
-                pixel.style.top = '50%';
-                pixel.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                pixel.style.position = 'fixed';
-                pixel.style.zIndex = '1';
+            function createPixelExplosion() {
+                const colors = ['#ff85a2', '#ffd166', '#06d6a0', '#118ab2'];
+                for (let i = 0; i < 50; i++) {
+                    const pixel = document.createElement('div');
+                    pixel.className = 'pixel';
+                    pixel.style.left = '50%';
+                    pixel.style.top = '50%';
+                    pixel.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    pixel.style.position = 'fixed';
+                    pixel.style.zIndex = '1';
 
-                const size = 4 + Math.floor(Math.random() * 3) * 4;
-                pixel.style.width = `${size}px`;
-                pixel.style.height = `${size}px`;
+                    const size = 4 + Math.floor(Math.random() * 3) * 4;
+                    pixel.style.width = `${size}px`;
+                    pixel.style.height = `${size}px`;
 
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 50 + Math.random() * 100;
-                const x = Math.cos(angle) * distance;
-                const y = Math.sin(angle) * distance;
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 50 + Math.random() * 100;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
 
-                pixel.style.animation = `pixel-explode ${0.5 + Math.random()}s forwards`;
-                pixel.style.setProperty('--x', `${x}px`);
-                pixel.style.setProperty('--y', `${y}px`);
+                    pixel.style.animation = `pixel-explode ${0.5 + Math.random()}s forwards`;
+                    pixel.style.setProperty('--x', `${x}px`);
+                    pixel.style.setProperty('--y', `${y}px`);
 
-                document.body.appendChild(pixel);
-                setTimeout(() => pixel.remove(), 1000);
+                    document.body.appendChild(pixel);
+                    setTimeout(() => pixel.remove(), 1000);
+                }
             }
-        }
 
-        function updateBirthdayUI() {
-            birthdayState.joy = 80 + Math.floor(Math.random() * 20);
-            healthFill.style.width = `${birthdayState.joy}%`;
-            healthFill.style.background = `linear-gradient(to right, #ef476f, #ffd166)`;
-            scoreDisplay.textContent = `JOY: ${birthdayState.joy}%`;
-            levelDisplay.textContent = `AGE: ${birthdayState.age}`;
-        }
-
-        function showAchievement() {
-            achievementBadge.classList.add('active');
-            setTimeout(() => achievementBadge.classList.remove('active'), 3000);
-        }
-
-        function playMessage(index) {
-            // Get the message at the specified index
-            const message = birthdayState.messages[index];
-
-            // Update the notification content
-            notificationContent.textContent = message.text;
-
-            // Update progress display
-            progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
-
-            // Show or hide image based on the message
-            const imageContainer = document.getElementById('celebrantImageContainer');
-            if (message.showImage) {
-                imageContainer.style.display = 'flex';
-                gameNotification.classList.add('has-image');
-                // Show achievement badge only when image appears
-                showAchievement();
-            } else {
-                imageContainer.style.display = 'none';
-                gameNotification.classList.remove('has-image');
+            function updateBirthdayUI() {
+                birthdayState.joy = 80 + Math.floor(Math.random() * 20);
+                healthFill.style.width = `${birthdayState.joy}%`;
+                healthFill.style.background = `linear-gradient(to right, #ef476f, #ffd166)`;
+                scoreDisplay.textContent = `JOY: ${birthdayState.joy}%`;
+                levelDisplay.textContent = `AGE: ${birthdayState.age}`;
             }
-        }
 
-        function showNextMessage() {
-            // Move to the next message (or loop back to the first)
-            birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
-            playMessage(birthdayState.currentMessageIndex);
-            createConfetti();
-        }
+            function showAchievement() {
+                achievementBadge.classList.add('active');
+                setTimeout(() => achievementBadge.classList.remove('active'), 3000);
+            }
 
-        function resetExperience() {
-            gameNotification.classList.remove('active');
-            birthdayState.currentMessageIndex = 0;
-            updateBirthdayUI();
-        }
+            function playMessage(index) {
+                // Get the message at the specified index
+                const message = birthdayState.messages[index];
 
-        // Event listeners
-        gameButton.addEventListener('click', () => {
-            createPixelExplosion();
-            updateBirthdayUI();
+                // Update the notification content
+                notificationContent.textContent = message.text;
 
-            setTimeout(() => {
+                // Update progress display
+                progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
+
+                // Show or hide image based on the message
+                const imageContainer = document.getElementById('celebrantImageContainer');
+                if (message.showImage) {
+                    imageContainer.style.display = 'flex';
+                    gameNotification.classList.add('has-image');
+                    // Show achievement badge only when image appears
+                    showAchievement();
+                } else {
+                    imageContainer.style.display = 'none';
+                    gameNotification.classList.remove('has-image');
+                }
+            }
+
+            function showNextMessage() {
+                // Move to the next message (or loop back to the first)
+                birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
                 playMessage(birthdayState.currentMessageIndex);
                 createConfetti();
+            }
+
+            function resetExperience() {
+                gameNotification.classList.remove('active');
+                birthdayState.currentMessageIndex = 0;
+                updateBirthdayUI();
+            }
+
+            // Event listeners
+            gameButton.addEventListener('click', () => {
+                createPixelExplosion();
+                updateBirthdayUI();
 
                 setTimeout(() => {
-                    gameNotification.classList.add('active');
-                }, 100);
-            }, 400);
-        });
+                    playMessage(birthdayState.currentMessageIndex);
+                    createConfetti();
 
-        restartBtn.addEventListener('click', resetExperience);
+                    setTimeout(() => {
+                        gameNotification.classList.add('active');
+                    }, 100);
+                }, 400);
+            });
 
-        nextBtn.addEventListener('click', showNextMessage);
+            restartBtn.addEventListener('click', resetExperience);
 
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' || e.code === 'Enter') gameButton.click();
-        });
+            nextBtn.addEventListener('click', showNextMessage);
 
-        // Initialize on user interaction
-        document.addEventListener('click', function initOnInteraction() {
-            initBirthday();
-            document.removeEventListener('click', initOnInteraction);
-        }, { once: true });
-    </script>
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' || e.code === 'Enter') gameButton.click();
+            });
 
-</body>
+            // Initialize on user interaction
+            document.addEventListener('click', function initOnInteraction() {
+                initBirthday();
+                document.removeEventListener('click', initOnInteraction);
+            }, { once: true });
+        </script>
+
+    </body>
 
 </html>
