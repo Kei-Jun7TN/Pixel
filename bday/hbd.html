@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1a0033">
     <link rel="preload" href="assets/gems/red1.png" as="image">
     <link rel="preload" href="assets/gems/red2.png" as="image">
     <link rel="preload" href="assets/gems/orange1.png" as="image">
@@ -12,12 +13,27 @@
     <link rel="preload" href="assets/gems/green2.png" as="image">
     <link rel="preload" href="assets/gems/spark1.png" as="image">
     <link rel="preload" href="assets/gems/spark2.png" as="image">
-    <title>8-Bit Birthday Greeting</title>
+    <title>8-Bit Birthday Greeting for Gem Christian</title>
     <style>
+        :root {
+            --primary-color: #ff66b3;
+            --secondary-color: #ff85d8;
+            --dark-accent: #66004d;
+            --darker-accent: #1a0033;
+            --light-text: #ffd6f4;
+            --pixel-size: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
-            background-color: #1a0033;
+            background-color: var(--darker-accent);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -28,7 +44,7 @@
             image-rendering: pixelated;
             touch-action: manipulation;
             padding: 20px;
-            box-sizing: border-box;
+            color: var(--light-text);
         }
 
         @font-face {
@@ -46,6 +62,7 @@
             max-width: 800px;
             position: relative;
             z-index: 10;
+            gap: 20px;
         }
 
         /* Pixel Border */
@@ -58,23 +75,23 @@
         .pixel-border-top,
         .pixel-border-bottom {
             width: 100%;
-            height: 8px;
+            height: var(--pixel-size);
             background: repeating-linear-gradient(to right,
-                    #ff66b3,
-                    #ff66b3 8px,
-                    transparent 8px,
-                    transparent 16px);
+                    var(--primary-color),
+                    var(--primary-color) var(--pixel-size),
+                    transparent var(--pixel-size),
+                    transparent calc(var(--pixel-size) * 2));
         }
 
         .pixel-border-left,
         .pixel-border-right {
             height: 100%;
-            width: 8px;
+            width: var(--pixel-size);
             background: repeating-linear-gradient(to bottom,
-                    #ff66b3,
-                    #ff66b3 8px,
-                    transparent 8px,
-                    transparent 16px);
+                    var(--primary-color),
+                    var(--primary-color) var(--pixel-size),
+                    transparent var(--pixel-size),
+                    transparent calc(var(--pixel-size) * 2));
         }
 
         .pixel-border-top {
@@ -97,7 +114,6 @@
             right: 0;
         }
 
-
         .pixel-waves {
             position: fixed;
             top: 0;
@@ -109,11 +125,11 @@
             background-image:
                 linear-gradient(to right,
                     transparent 0%,
-                    #ff66b3 20%,
+                    var(--primary-color) 20%,
                     transparent 40%,
-                    #ff85d8 60%,
+                    var(--secondary-color) 60%,
                     transparent 80%,
-                    #ff66b3 100%);
+                    var(--primary-color) 100%);
             background-size: 200% 100%;
             animation: waveMove 8s linear infinite;
             image-rendering: pixelated;
@@ -139,7 +155,7 @@
             background-image:
                 linear-gradient(rgba(255, 102, 179, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 102, 179, 0.05) 1px, transparent 1px);
-            background-size: 8px 8px;
+            background-size: var(--pixel-size) var(--pixel-size);
             z-index: -1;
             pointer-events: none;
         }
@@ -147,11 +163,14 @@
         /* Birthday specific styles */
         .cake-icon {
             font-size: clamp(50px, 10vw, 80px);
-            margin-bottom: clamp(15px, 3vw, 30px);
-            text-shadow: 0 6px 0 #66004d;
+            margin-bottom: clamp(10px, 2vw, 20px);
+            text-shadow: 0 6px 0 var(--dark-accent);
             position: relative;
             z-index: 10;
-            animation: bounce 2s infinite, candleFlicker 0.5s infinite alternate;
+            animation:
+                bounce 2s infinite ease-in-out,
+                candleFlicker 0.5s infinite alternate;
+            will-change: transform, text-shadow;
         }
 
         @keyframes candleFlicker {
@@ -159,19 +178,18 @@
             0%,
             100% {
                 text-shadow:
-                    0 6px 0 #66004d,
+                    0 6px 0 var(--dark-accent),
                     0 -10px 10px #ff3333,
                     0 -15px 15px #ff9933;
             }
 
             50% {
                 text-shadow:
-                    0 6px 0 #66004d,
+                    0 6px 0 var(--dark-accent),
                     0 -8px 8px #ff6666,
                     0 -12px 12px #ffcc66;
             }
         }
-
 
         @keyframes bounce {
 
@@ -186,15 +204,22 @@
         }
 
         .birthday-title {
-            color: #ff85d8;
-            font-size: clamp(20px, 6vw, 36px);
-            text-shadow: 0 6px 0 #66004d;
-            margin-bottom: clamp(15px, 3vw, 30px);
+            color: var(--secondary-color);
+            font-size: clamp(16px, 5vw, 36px);
+            text-shadow: 0 4px 0 var(--dark-accent);
+            margin-bottom: clamp(10px, 2vw, 20px);
             text-align: center;
             line-height: 1.4;
             position: relative;
             z-index: 10;
             padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .birthday-title span {
+            display: block;
         }
 
         /* Game Button */
@@ -202,16 +227,16 @@
             position: relative;
             width: clamp(140px, 40vw, 180px);
             height: clamp(60px, 12vw, 80px);
-            background: #800080;
-            border: 4px solid #ff66b3;
-            color: #ffd6f4;
+            background: var(--dark-accent);
+            border: 4px solid var(--primary-color);
+            color: var(--light-text);
             font-family: 'Press Start 2P', cursive;
             font-size: clamp(9px, 2.5vw, 12px);
             cursor: pointer;
-            text-shadow: 0 2px 0 #66004d;
+            text-shadow: 0 2px 0 var(--dark-accent);
             box-shadow:
                 4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #66004d;
+                inset 0 0 0 2px var(--dark-accent);
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 10;
             display: flex;
@@ -221,21 +246,22 @@
             line-height: 1.4;
             padding: 0 10px;
             transform: translate(0, 0);
+            outline: none;
         }
 
         .game-button:hover {
-            background: #ff66b3;
+            background: var(--primary-color);
             transform: translate(2px, 2px);
             box-shadow:
                 2px 2px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #66004d;
+                inset 0 0 0 2px var(--dark-accent);
         }
 
         .game-button:active {
             transform: translate(4px, 4px);
             box-shadow:
                 0px 0px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #66004d;
+                inset 0 0 0 2px var(--dark-accent);
             transition: all 0.1s ease-out;
         }
 
@@ -246,7 +272,7 @@
             left: -8px;
             right: -8px;
             bottom: -8px;
-            border: 2px solid #ff85d8;
+            border: 2px solid var(--secondary-color);
             z-index: -1;
             pointer-events: none;
             opacity: 0;
@@ -266,13 +292,13 @@
             width: min(90vw, 400px);
             max-height: 80vh;
             overflow-y: auto;
-            background: #66004d;
-            border: 6px solid #ff66b3;
+            background: var(--dark-accent);
+            border: 6px solid var(--primary-color);
             padding: min(4vw, 25px);
             box-shadow:
                 12px 12px 0 rgba(0, 0, 0, 0.5),
-                inset 0 0 0 4px #800080,
-                inset 0 0 0 8px #66004d;
+                inset 0 0 0 4px var(--dark-accent),
+                inset 0 0 0 8px var(--dark-accent);
             z-index: 100;
             opacity: 0;
             pointer-events: none;
@@ -280,6 +306,11 @@
             transition:
                 opacity 0.3s ease-out,
                 transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            scrollbar-width: none;
+        }
+
+        .game-notification::-webkit-scrollbar {
+            display: none;
         }
 
         .game-notification.active {
@@ -313,23 +344,23 @@
             align-items: center;
             margin-bottom: clamp(10px, 2vw, 20px);
             padding-bottom: clamp(8px, 1.5vw, 15px);
-            border-bottom: 2px solid #ff66b3;
+            border-bottom: 2px solid var(--primary-color);
         }
 
         .notification-title {
-            color: #ff85d8;
-            font-size: clamp(16px, 4vw, 20px);
-            text-shadow: 0 4px 0 #66004d;
+            color: var(--secondary-color);
+            font-size: clamp(14px, 4vw, 20px);
+            text-shadow: 0 4px 0 var(--dark-accent);
             margin: 0;
         }
 
         .notification-icon {
             width: clamp(20px, 6vw, 24px);
             height: clamp(20px, 6vw, 24px);
-            background-color: #ff66b3;
-            border: 2px solid #ff85d8;
+            background-color: var(--primary-color);
+            border: 2px solid var(--secondary-color);
             box-shadow:
-                0 0 0 2px #66004d,
+                0 0 0 2px var(--dark-accent),
                 2px 2px 0 rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: center;
@@ -338,59 +369,63 @@
         }
 
         .notification-content {
-            color: #ffd6f4;
-            font-size: clamp(11px, 3vw, 14px);
+            color: var(--light-text);
+            font-size: clamp(12px, 3vw, 14px);
             line-height: 1.6;
             margin-bottom: clamp(15px, 3vw, 25px);
-            text-shadow: 0 2px 0 #66004d;
+            text-shadow: 0 2px 0 var(--dark-accent);
+            word-break: break-word;
+            hyphens: auto;
         }
 
         .notification-buttons {
             display: flex;
             justify-content: center;
             gap: clamp(8px, 2vw, 15px);
+            flex-wrap: wrap;
         }
 
         .notification-btn {
             padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px);
-            background: #800080;
-            color: #ffd6f4;
-            border: 2px solid #ff66b3;
+            background: var(--dark-accent);
+            color: var(--light-text);
+            border: 2px solid var(--primary-color);
             font-family: 'Press Start 2P', cursive;
             font-size: clamp(10px, 2.5vw, 12px);
             cursor: pointer;
-            text-shadow: 0 2px 0 #66004d;
+            text-shadow: 0 2px 0 var(--dark-accent);
             box-shadow:
                 4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #66004d;
+                inset 0 0 0 2px var(--dark-accent);
             transition: all 0.1s;
-            flex: 1;
+            flex: 1 0 auto;
             max-width: 120px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: clamp(36px, 8vw, 40px);
             line-height: 1;
+            min-width: 100px;
         }
 
         .notification-btn:hover {
-            background: #ff66b3;
+            background: var(--primary-color);
             transform: translate(2px, 2px);
             box-shadow:
                 2px 2px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #66004d;
+                inset 0 0 0 2px var(--dark-accent);
         }
 
         .notification-btn:active {
             transform: translate(4px, 4px);
             box-shadow:
                 0px 0px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #66004d;
+                inset 0 0 0 2px var(--dark-accent);
         }
 
         .btn-accent {
-            background: #ff66b3;
-            border-color: #ff85d8;
+            background: var(--primary-color);
+            border-color: var(--secondary-color);
         }
 
         /* Game UI Elements */
@@ -408,10 +443,10 @@
             left: clamp(15px, 3vw, 30px);
             width: clamp(120px, 30vw, 200px);
             height: clamp(20px, 4vw, 30px);
-            background: #66004d;
-            border: 3px solid #ff66b3;
+            background: var(--dark-accent);
+            border: 3px solid var(--primary-color);
             box-shadow:
-                inset 0 0 0 3px #800080,
+                inset 0 0 0 3px var(--dark-accent),
                 6px 6px 0 rgba(0, 0, 0, 0.3);
         }
 
@@ -421,34 +456,36 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to right, #ff0080, #ff66b3);
-            transition: width 0.3s;
+            background: linear-gradient(to right, #ff0080, var(--primary-color));
+            transition: width 0.3s ease-out;
         }
 
         .score-display {
             position: absolute;
             top: clamp(15px, 3vw, 30px);
             right: clamp(15px, 3vw, 30px);
-            color: #ffd6f4;
-            font-size: clamp(14px, 3.5vw, 18px);
-            text-shadow: 0 3px 0 #66004d;
+            color: var(--light-text);
+            font-size: clamp(12px, 3.5vw, 16px);
+            text-shadow: 0 3px 0 var(--dark-accent);
             padding: 5px 10px;
             background: rgba(102, 0, 77, 0.7);
-            border: 2px solid #ff66b3;
+            border: 2px solid var(--primary-color);
             border-radius: 4px;
+            white-space: nowrap;
         }
 
         .level-display {
             position: absolute;
             top: clamp(50px, 8vw, 70px);
             left: clamp(15px, 3vw, 30px);
-            color: #ffd6f4;
-            font-size: clamp(14px, 3.5vw, 18px);
-            text-shadow: 0 3px 0 #66004d;
+            color: var(--light-text);
+            font-size: clamp(12px, 3.5vw, 16px);
+            text-shadow: 0 3px 0 var(--dark-accent);
             padding: 5px 10px;
             background: rgba(102, 0, 77, 0.7);
-            border: 2px solid #ff66b3;
+            border: 2px solid var(--primary-color);
             border-radius: 4px;
+            white-space: nowrap;
         }
 
         /* Achievement Badge */
@@ -456,55 +493,43 @@
             position: fixed;
             top: clamp(10px, 2vw, 20px);
             right: -10px;
-            /* Start just slightly off-screen */
             width: clamp(220px, 50vw, 280px);
             height: clamp(50px, 12vw, 60px);
-            background: #66004d;
-            border: 3px solid #ff66b3;
+            background: var(--dark-accent);
+            border: 3px solid var(--primary-color);
             display: flex;
             align-items: center;
             padding: clamp(5px, 1.5vw, 10px) clamp(10px, 3vw, 15px);
             box-shadow:
                 6px 6px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 3px #800080;
+                inset 0 0 0 3px var(--dark-accent);
             z-index: 50;
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform: translateX(100%);
-            /* Fully hidden when inactive */
         }
 
         .achievement-badge.active {
             transform: translateX(0);
-            /* Fully visible when active */
             right: 10px;
-            /* Adjust final position */
         }
 
         .badge-icon {
             width: clamp(36px, 10vw, 44px);
-            /* Larger icon */
             height: clamp(36px, 10vw, 44px);
-            /* Larger icon */
-            background-color: #ff66b3;
-            border: 3px solid #ff85d8;
-            /* Thicker border */
+            background-color: var(--primary-color);
+            border: 3px solid var(--secondary-color);
             margin-right: clamp(10px, 3vw, 15px);
-            /* Increased margin */
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: clamp(18px, 5vw, 22px);
-            /* Larger font */
         }
 
         .badge-text {
-            color: #ffd6f4;
+            color: var(--light-text);
             font-size: clamp(12px, 3vw, 16px);
-            /* Larger text */
-            text-shadow: 0 3px 0 #66004d;
-            /* Stronger shadow */
+            text-shadow: 0 3px 0 var(--dark-accent);
             line-height: 1.3;
-            /* Better text alignment */
         }
 
         /* Celebrant Image */
@@ -518,15 +543,13 @@
         .celebrant-image {
             width: clamp(100px, 30vw, 150px);
             height: clamp(100px, 30vw, 150px);
-            border: 4px solid #ff66b3;
+            border: 4px solid var(--primary-color);
             box-shadow:
-                0 0 0 4px #66004d,
+                0 0 0 4px var(--dark-accent),
                 4px 4px 0 rgba(0, 0, 0, 0.3);
             object-fit: cover;
             image-rendering: pixelated;
             filter: contrast(1.2) brightness(1.1);
-            image-rendering: -moz-crisp-edges;
-            image-rendering: pixelated;
         }
 
         .game-notification.active.has-image .notification-content {
@@ -535,17 +558,17 @@
 
         /* Progress display */
         .progress-display {
-            color: #ff85d8;
+            color: var(--secondary-color);
             font-size: clamp(10px, 2.5vw, 12px);
             text-align: center;
             margin-bottom: clamp(10px, 3vw, 20px);
-            text-shadow: 0 2px 0 #66004d;
+            text-shadow: 0 2px 0 var(--dark-accent);
         }
 
         /* Next button */
         .btn-next {
-            background: #ff66b3;
-            border-color: #ff85d8;
+            background: var(--primary-color);
+            border-color: var(--secondary-color);
         }
 
         /* Confetti */
@@ -604,8 +627,8 @@
             right: clamp(10px, 2vw, 20px);
             width: clamp(30px, 8vw, 40px);
             height: clamp(30px, 8vw, 40px);
-            background: #66004d;
-            border: 2px solid #ff66b3;
+            background: var(--dark-accent);
+            border: 2px solid var(--primary-color);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -613,37 +636,14 @@
             cursor: pointer;
             box-shadow:
                 4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #800080;
+                inset 0 0 0 2px var(--dark-accent);
             z-index: 10;
         }
 
         .sound-toggle i {
-            color: #ffd6f4;
+            color: var(--light-text);
             font-size: clamp(14px, 4vw, 16px);
-            text-shadow: 0 2px 0 #66004d;
-        }
-
-        /* Very small screens adjustments */
-        @media (max-width: 350px) {
-            .birthday-title {
-                font-size: 16px;
-                line-height: 1.3;
-            }
-
-            .game-button {
-                height: 50px;
-                font-size: 8px;
-            }
-
-            .notification-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .notification-btn {
-                max-width: 100%;
-                width: 100%;
-            }
+            text-shadow: 0 2px 0 var(--dark-accent);
         }
 
         /* Pixel Loader Animation */
@@ -653,7 +653,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #1a0033;
+            background: var(--darker-accent);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -677,7 +677,7 @@
         .loader-pixel {
             width: 16px;
             height: 16px;
-            background: #ff66b3;
+            background: var(--primary-color);
             animation: pixelPulse 1.5s infinite;
             animation-delay: calc(var(--pixel-index) * 0.05s);
             opacity: 0;
@@ -685,9 +685,9 @@
 
         .loader-text {
             font-family: 'Press Start 2P', cursive;
-            color: #ff85d8;
+            color: var(--secondary-color);
             font-size: 12px;
-            text-shadow: 0 2px 0 #66004d;
+            text-shadow: 0 2px 0 var(--dark-accent);
             animation: textGlow 1s infinite alternate;
         }
 
@@ -702,19 +702,19 @@
             50% {
                 opacity: 1;
                 transform: scale(1.1);
-                background: #ff85d8;
+                background: var(--secondary-color);
             }
         }
 
         @keyframes textGlow {
             from {
                 opacity: 0.7;
-                text-shadow: 0 0 5px #ff85d8;
+                text-shadow: 0 0 5px var(--secondary-color);
             }
 
             to {
                 opacity: 1;
-                text-shadow: 0 0 10px #ff85d8, 0 0 20px #ff85d8;
+                text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
             }
         }
 
@@ -724,320 +724,372 @@
                 visibility: hidden;
             }
         }
+
+        /* Very small screens adjustments */
+        @media (max-width: 400px) {
+            .birthday-title {
+                font-size: 14px;
+                line-height: 1.3;
+            }
+
+            .game-button {
+                height: 50px;
+                font-size: 8px;
+                min-width: 120px;
+            }
+
+            .notification-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .notification-btn {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .content-container {
+                flex-direction: row;
+                gap: 20px;
+            }
+
+            .cake-icon {
+                margin-bottom: 0;
+            }
+
+            .birthday-title {
+                margin-bottom: 0;
+                text-align: left;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <div class="pixel-waves"></div>
     <!-- Pixelated Opening Animation -->
-
-    <body>
-        <!-- Pixelated Opening Animation -->
-        <div class="pixel-loader" id="pixelLoader">
-            <div class="loader-grid">
-                <div class="loader-row">
-                    <div class="loader-pixel" style="--pixel-index: 0"></div>
-                    <div class="loader-pixel" style="--pixel-index: 1"></div>
-                    <div class="loader-pixel" style="--pixel-index: 2"></div>
-                    <div class="loader-pixel" style="--pixel-index: 3"></div>
-                    <div class="loader-pixel" style="--pixel-index: 4"></div>
-                    <div class="loader-pixel" style="--pixel-index: 5"></div>
-                    <div class="loader-pixel" style="--pixel-index: 6"></div>
-                    <div class="loader-pixel" style="--pixel-index: 7"></div>
-                </div>
-                <div class="loader-row">
-                    <div class="loader-pixel" style="--pixel-index: 8"></div>
-                    <div class="loader-pixel" style="--pixel-index: 9"></div>
-                    <div class="loader-pixel" style="--pixel-index: 10"></div>
-                    <div class="loader-pixel" style="--pixel-index: 11"></div>
-                    <div class="loader-pixel" style="--pixel-index: 12"></div>
-                    <div class="loader-pixel" style="--pixel-index: 13"></div>
-                    <div class="loader-pixel" style="--pixel-index: 14"></div>
-                    <div class="loader-pixel" style="--pixel-index: 15"></div>
-                </div>
-                <div class="loader-row">
-                    <div class="loader-pixel" style="--pixel-index: 16"></div>
-                    <div class="loader-pixel" style="--pixel-index: 17"></div>
-                    <div class="loader-pixel" style="--pixel-index: 18"></div>
-                    <div class="loader-pixel" style="--pixel-index: 19"></div>
-                    <div class="loader-pixel" style="--pixel-index: 20"></div>
-                    <div class="loader-pixel" style="--pixel-index: 21"></div>
-                    <div class="loader-pixel" style="--pixel-index: 22"></div>
-                    <div class="loader-pixel" style="--pixel-index: 23"></div>
-                </div>
-                <div class="loader-row">
-                    <div class="loader-pixel" style="--pixel-index: 24"></div>
-                    <div class="loader-pixel" style="--pixel-index: 25"></div>
-                    <div class="loader-pixel" style="--pixel-index: 26"></div>
-                    <div class="loader-pixel" style="--pixel-index: 27"></div>
-                    <div class="loader-pixel" style="--pixel-index: 28"></div>
-                    <div class="loader-pixel" style="--pixel-index: 29"></div>
-                    <div class="loader-pixel" style="--pixel-index: 30"></div>
-                    <div class="loader-pixel" style="--pixel-index: 31"></div>
-                </div>
+    <div class="pixel-loader" id="pixelLoader">
+        <div class="loader-grid">
+            <div class="loader-row">
+                <div class="loader-pixel" style="--pixel-index: 0"></div>
+                <div class="loader-pixel" style="--pixel-index: 1"></div>
+                <div class="loader-pixel" style="--pixel-index: 2"></div>
+                <div class="loader-pixel" style="--pixel-index: 3"></div>
+                <div class="loader-pixel" style="--pixel-index: 4"></div>
+                <div class="loader-pixel" style="--pixel-index: 5"></div>
+                <div class="loader-pixel" style="--pixel-index: 6"></div>
+                <div class="loader-pixel" style="--pixel-index: 7"></div>
             </div>
-            <div class="loader-text">LOADING ;)</div>
-        </div>
-
-        <!-- Pixel Grid Background -->
-        <div class="pixel-grid"></div>
-
-        <!-- Pixel Border Elements -->
-        <div class="pixel-border pixel-border-top"></div>
-        <div class="pixel-border pixel-border-bottom"></div>
-        <div class="pixel-border pixel-border-left"></div>
-        <div class="pixel-border pixel-border-right"></div>
-
-        <!-- Main Content Container -->
-        <div class="content-container">
-            <!-- Birthday Title -->
-            <div class="birthday-title">Happy Birthday po<br>Kapatid na <br><br> GEM CHRISTIAN COPIA GUIMARY!</div>
-            <div class="cake-icon">🎂</div>
-
-            <!-- Game Button -->
-            <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISHES</button>
-        </div>
-
-        <!-- Game UI Elements -->
-        <div class="game-ui">
-            <div class="health-bar">
-                <div class="health-fill" id="healthFill"></div>
+            <div class="loader-row">
+                <div class="loader-pixel" style="--pixel-index: 8"></div>
+                <div class="loader-pixel" style="--pixel-index: 9"></div>
+                <div class="loader-pixel" style="--pixel-index: 10"></div>
+                <div class="loader-pixel" style="--pixel-index: 11"></div>
+                <div class="loader-pixel" style="--pixel-index: 12"></div>
+                <div class="loader-pixel" style="--pixel-index: 13"></div>
+                <div class="loader-pixel" style="--pixel-index: 14"></div>
+                <div class="loader-pixel" style="--pixel-index: 15"></div>
             </div>
-            <div class="score-display" id="scoreDisplay">JOY: 100%</div>
-            <div class="level-display" id="levelDisplay">AGE: 24</div>
-        </div>
-
-        <!-- Achievement Badge -->
-        <div class="achievement-badge" id="achievementBadge">
-            <div class="badge-icon">🏆</div>
-            <div class="badge-text">BIRTHDAY ACHIEVEMENT!</div>
-        </div>
-
-        <!-- Game Notification -->
-        <div class="game-notification" id="gameNotification">
-            <div class="notification-header">
-                <h2 class="notification-title">BIRTHDAY MESSAGE!</h2>
-                <div class="notification-icon">🎉</div>
+            <div class="loader-row">
+                <div class="loader-pixel" style="--pixel-index: 16"></div>
+                <div class="loader-pixel" style="--pixel-index: 17"></div>
+                <div class="loader-pixel" style="--pixel-index: 18"></div>
+                <div class="loader-pixel" style="--pixel-index: 19"></div>
+                <div class="loader-pixel" style="--pixel-index: 20"></div>
+                <div class="loader-pixel" style="--pixel-index: 21"></div>
+                <div class="loader-pixel" style="--pixel-index: 22"></div>
+                <div class="loader-pixel" style="--pixel-index: 23"></div>
             </div>
-            <div class="celebrant-image-container" id="celebrantImageContainer" style="display: none;">
-                <img src="assets/gems/wow.jpg" alt="Birthday Celebrant" class="celebrant-image">
-            </div>
-            <div class="progress-display" id="progressDisplay">1/10</div>
-            <div class="notification-content" id="notificationContent">
-                CONGRATULATIONS! YOU'VE LEVELED UP IN LIFE! WISHING YOU AN AMAZING YEAR AHEAD FILLED WITH JOY, SUCCESS,
-                AND
-                PLENTY OF POWER-UPS!
-            </div>
-            <div class="notification-buttons">
-                <button class="notification-btn btn-accent" id="restartBtn">RESTART</button>
-                <button class="notification-btn btn-next" id="nextBtn">NEXT</button>
+            <div class="loader-row">
+                <div class="loader-pixel" style="--pixel-index: 24"></div>
+                <div class="loader-pixel" style="--pixel-index: 25"></div>
+                <div class="loader-pixel" style="--pixel-index: 26"></div>
+                <div class="loader-pixel" style="--pixel-index: 27"></div>
+                <div class="loader-pixel" style="--pixel-index: 28"></div>
+                <div class="loader-pixel" style="--pixel-index: 29"></div>
+                <div class="loader-pixel" style="--pixel-index: 30"></div>
+                <div class="loader-pixel" style="--pixel-index: 31"></div>
             </div>
         </div>
+        <div class="loader-text">LOADING ;)</div>
+    </div>
 
-        <script>
-            // Initialize loader pixels
-            document.addEventListener('DOMContentLoaded', function () {
-                const loader = document.getElementById('pixelLoader');
+    <!-- Pixel Grid Background -->
+    <div class="pixel-waves"></div>
+    <div class="pixel-grid"></div>
 
-                // Remove loader after animation completes
-                setTimeout(() => {
-                    loader.remove();
-                }, 3500);
-            });
+    <!-- Pixel Border Elements -->
+    <div class="pixel-border pixel-border-top"></div>
+    <div class="pixel-border pixel-border-bottom"></div>
+    <div class="pixel-border pixel-border-left"></div>
+    <div class="pixel-border pixel-border-right"></div>
 
-            const gameButton = document.getElementById('gameButton');
-            const gameNotification = document.getElementById('gameNotification');
-            const restartBtn = document.getElementById('restartBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const healthFill = document.getElementById('healthFill');
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            const levelDisplay = document.getElementById('levelDisplay');
-            const achievementBadge = document.getElementById('achievementBadge');
-            const notificationContent = document.getElementById('notificationContent');
-            const progressDisplay = document.getElementById('progressDisplay');
-            const cakeIcon = document.querySelector('.cake-icon');
+    <!-- Main Content Container -->
+    <div class="content-container">
+        <!-- Birthday Title -->
+        <div class="birthday-title">
+            <span>Happy Birthday po</span>
+            <span>Kapatid na</span>
+            <span>GEM CHRISTIAN</span>
+            <span>COPIA GUIMARY!</span>
+        </div>
+        <div class="cake-icon">🎂</div>
 
-            // Birthday state
-            let birthdayState = {
-                joy: 100,
-                age: 25,
-                currentMessageIndex: 0,
-                messages: [
-                    { text: "Happy Birthday po sa aming butihing tagasubaybay a.k.a lookout👀👀👀💅 -Ilaw Fam", showImage: false },
-                    { text: "HAPPY BIRTHDAY KUYA GEM! nawa'y ang araw na ito ay maging makasaysayan at hindi mo makakalimutang araw para sayo, mabuhay ka hanggang sa gusto at makuha mo na sana lahat nang devil fruit sa one piece at skin sa emel. -Vanjo", showImage: false },
-                    { text: "happy birthday ka. gem✨️✨️✨️ huwag sana mawala yung zestful attitude mo sa pagtuturo bilang mwa/future minister✨️✨️✨️ -Mafia", showImage: false },
-                    { text: "Happy happy birthday po Ka. Gem, wish you po more birthday to come and malusog na pangangatawan para patuloy ka pong Maka tupad pa sa mga tungkulin at gampanin niyo po -Waniwan", showImage: false },
-                    { text: "Maligayang kaarawan po, nawa'y mabuhay kayo hangga't gusto n'yo. At nawa'y mag bagong buhay na kayo, h'wag na po pumangatlo. Joke lang po...Hehehehe -Bebe", showImage: false },
-                    { text: "Happy Birthday po! -Kimy", showImage: false },
-                    { text: "Happy Birthday po boto na po ako sa inyo with heart -Ekang", showImage: false },
-                    { text: "Happy3x Birthday Ka Gem ILOVEYOU mahal na mahal kita xd mwua2x chup2x -Kuys Butog", showImage: false },
-                    { text: "Happy Birthday po, nawa'y sumulong pa kayo sa inyong karapatan -Butihing KSI", showImage: false },
-                    { text: "Happy Happy Birthday po Ka Gem, mabuhay ka po hangga't gusto mo -Madam", showImage: false },
-                    { text: "Happy Birthday Ka Gem now a name but soon a Legend -Burns🔥", showImage: false },
-                    { text: "Happy Birthday po BASHER!!! sana h'wag ka na pong mang-bash char lang Happy birthday po ulit -Fei", showImage: false },
-                    { text: "", showImage: false }
-                ],
-                gemstones: ["💎", "💠", "🔴"]
-            };
+        <!-- Game Button -->
+        <button class="game-button" id="gameButton">PRESS START<br>FOR BIRTHDAY WISHES</button>
+    </div>
 
-            // Initialize birthday greeting
-            function initBirthday() {
-                updateBirthdayUI();
+    <!-- Game UI Elements -->
+    <div class="game-ui">
+        <div class="health-bar">
+            <div class="health-fill" id="healthFill"></div>
+        </div>
+        <div class="score-display" id="scoreDisplay">JOY: 98%</div>
+        <div class="level-display" id="levelDisplay">AGE: 24</div>
+    </div>
 
-                // Start with a little animation
-                setTimeout(() => {
-                    cakeIcon.style.animation = 'none';
-                    setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite', 10);
-                }, 1000);
+    <!-- Achievement Badge -->
+    <div class="achievement-badge" id="achievementBadge">
+        <div class="badge-icon">🏆</div>
+        <div class="badge-text">BIRTHDAY ACHIEVEMENT!</div>
+    </div>
+
+    <!-- Game Notification -->
+    <div class="game-notification" id="gameNotification">
+        <div class="notification-header">
+            <h2 class="notification-title">BIRTHDAY MESSAGE!</h2>
+            <div class="notification-icon">🎉</div>
+        </div>
+        <div class="celebrant-image-container" id="celebrantImageContainer" style="display: none;">
+            <img src="assets/gems/wow.jpg" alt="Birthday Celebrant" class="celebrant-image">
+        </div>
+        <div class="progress-display" id="progressDisplay">1/10</div>
+        <div class="notification-content" id="notificationContent">
+            CONGRATULATIONS! YOU'VE LEVELED UP IN LIFE! WISHING YOU AN AMAZING YEAR AHEAD FILLED WITH JOY, SUCCESS,
+            AND PLENTY OF POWER-UPS!
+        </div>
+        <div class="notification-buttons">
+            <button class="notification-btn btn-accent" id="restartBtn">RESTART</button>
+            <button class="notification-btn btn-next" id="nextBtn">NEXT</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize loader pixels
+        document.addEventListener('DOMContentLoaded', function () {
+            const loader = document.getElementById('pixelLoader');
+
+            // Remove loader after animation completes
+            setTimeout(() => {
+                loader.remove();
+            }, 3500);
+        });
+
+        const gameButton = document.getElementById('gameButton');
+        const gameNotification = document.getElementById('gameNotification');
+        const restartBtn = document.getElementById('restartBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const healthFill = document.getElementById('healthFill');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const achievementBadge = document.getElementById('achievementBadge');
+        const notificationContent = document.getElementById('notificationContent');
+        const progressDisplay = document.getElementById('progressDisplay');
+        const cakeIcon = document.querySelector('.cake-icon');
+        const celebrantImageContainer = document.getElementById('celebrantImageContainer');
+
+        // Birthday state
+        let birthdayState = {
+            joy: 100,
+            age: 25,
+            currentMessageIndex: 0,
+            messages: [
+                { text: "Happy Birthday po sa aming butihing tagasubaybay a.k.a lookout👀👀👀💅 -Ilaw Fam", showImage: true },
+                { text: "HAPPY BIRTHDAY KUYA GEM! nawa'y ang araw na ito ay maging makasaysayan at hindi mo makakalimutang araw para sayo, mabuhay ka hanggang sa gusto at makuha mo na sana lahat nang devil fruit sa one piece at skin sa emel. -Vanjo", showImage: false },
+                { text: "happy birthday ka. gem✨️✨️✨️ huwag sana mawala yung zestful attitude mo sa pagtuturo bilang mwa/future minister✨️✨️✨️ -Mafia", showImage: false },
+                { text: "Happy happy birthday po Ka. Gem, wish you po more birthday to come and malusog na pangangatawan para patuloy ka pong Maka tupad pa sa mga tungkulin at gampanin niyo po -Waniwan", showImage: false },
+                { text: "Maligayang kaarawan po, nawa'y mabuhay kayo hangga't gusto n'yo. At nawa'y mag bagong buhay na kayo, h'wag na po pumangatlo. Joke lang po...Hehehehe -Bebe", showImage: false },
+                { text: "Happy Birthday po! -Kimy", showImage: false },
+                { text: "Happy Birthday po boto na po ako sa inyo with heart -Ekang", showImage: false },
+                { text: "Happy3x Birthday Ka Gem ILOVEYOU mahal na mahal kita xd mwua2x chup2x -Kuys Butog", showImage: false },
+                { text: "Happy Birthday po, nawa'y sumulong pa kayo sa inyong karapatan -Butihing KSI", showImage: false },
+                { text: "Happy Happy Birthday po Ka Gem, mabuhay ka po hangga't gusto mo -Madam", showImage: false },
+                { text: "Happy Birthday Ka Gem now a name but soon a Legend -Burns🔥", showImage: false },
+                { text: "Happy Birthday po BASHER!!! sana h'wag ka na pong mang-bash char lang Happy birthday po ulit -Fei", showImage: false }
+            ],
+            gemstones: ["💎", "💠"]
+        };
+
+        // Initialize birthday greeting
+        function initBirthday() {
+            updateBirthdayUI();
+
+            // Start with a little animation
+            setTimeout(() => {
+                cakeIcon.style.animation = 'none';
+                setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite, candleFlicker 0.5s infinite alternate', 10);
+            }, 1000);
+        }
+
+        function createConfetti() {
+            // Create image-based confetti
+            for (let i = 0; i < 60; i++) {
+                const gem = document.createElement('img');
+                gem.className = 'gem-confetti';
+                gem.src = `assets/gems/${['red1', 'red2', 'orange1', 'orange2', 'green1', 'green2', 'spark1', 'spark2'][Math.floor(Math.random() * 8)]}.png`;
+                gem.style.left = Math.random() * 100 + 'vw';
+                gem.style.top = '-30px';
+                gem.style.animationDuration = (4 + Math.random() * 3) + 's';
+                gem.style.animationDelay = Math.random() * 1.5 + 's';
+                gem.style.width = '24px';
+                gem.style.height = '24px';
+                gem.style.position = 'fixed';
+                gem.style.zIndex = '1';
+                gem.style.imageRendering = 'pixelated';
+                document.body.appendChild(gem);
+
+                setTimeout(() => gem.remove(), 5000);
             }
 
-            function createConfetti() {
-                for (let i = 0; i < 60; i++) {
-                    const gem = document.createElement('img');
-                    gem.className = 'gem-confetti';
-                    gem.src = `assets/gems/${['red1', 'red2', 'orange1', 'orange2', 'green1', 'green2', 'spark1', 'spark2'][Math.floor(Math.random() * 8)]}.png`;
-                    gem.style.left = Math.random() * 100 + 'vw';
-                    gem.style.top = '-30px';
-                    gem.style.animationDuration = (4 + Math.random() * 3) + 's';
-                    gem.style.animationDelay = Math.random() * 1.5 + 's';
-                    gem.style.width = '24px';
-                    gem.style.height = '24px';
-                    gem.style.position = 'fixed';
-                    gem.style.zIndex = '1';
-                    gem.style.imageRendering = 'pixelated';
-                    document.body.appendChild(gem);
+            // Create emoji-based confetti
+            for (let i = 0; i < 60; i++) {
+                const gem = document.createElement('div');
+                gem.className = 'gem-confetti';
+                gem.style.left = Math.random() * 100 + 'vw';
+                gem.style.top = '-30px';
+                gem.style.animationDuration = (4 + Math.random() * 3) + 's';
+                gem.style.animationDelay = Math.random() * 1.5 + 's';
+                gem.textContent = birthdayState.gemstones[Math.floor(Math.random() * birthdayState.gemstones.length)];
+                gem.style.position = 'fixed';
+                gem.style.zIndex = '1';
+                gem.style.fontSize = (20 + Math.random() * 20) + 'px';
+                gem.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`;
 
-                    setTimeout(() => gem.remove(), 5000);
-                }
-
-                for (let i = 0; i < 60; i++) {
-                    const gem = document.createElement('div');
-                    gem.className = 'gem-confetti';
-                    gem.style.left = Math.random() * 100 + 'vw';
-                    gem.style.top = '-30px';
-                    gem.style.animationDuration = (4 + Math.random() * 3) + 's';
-                    gem.style.animationDelay = Math.random() * 1.5 + 's';
-                    gem.textContent = birthdayState.gemstones[Math.floor(Math.random() * birthdayState.gemstones.length)];
-                    gem.style.position = 'fixed';
-                    gem.style.zIndex = '1';
-                    gem.style.fontSize = (20 + Math.random() * 20) + 'px';
-                    gem.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`;
-
-                    document.body.appendChild(gem);
-                    setTimeout(() => gem.remove(), 5000);
-                }
+                document.body.appendChild(gem);
+                setTimeout(() => gem.remove(), 5000);
             }
+        }
 
-            function createPixelExplosion() {
-                const colors = ['#ff85a2', '#ffd166', '#06d6a0', '#118ab2'];
-                for (let i = 0; i < 50; i++) {
-                    const pixel = document.createElement('div');
-                    pixel.className = 'pixel';
-                    pixel.style.left = '50%';
-                    pixel.style.top = '50%';
-                    pixel.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    pixel.style.position = 'fixed';
-                    pixel.style.zIndex = '1';
+        function createPixelExplosion() {
+            const colors = ['#ff85a2', '#ffd166', '#06d6a0', '#118ab2', '#ff85d8', '#ff66b3'];
+            for (let i = 0; i < 50; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                pixel.style.left = '50%';
+                pixel.style.top = '50%';
+                pixel.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                pixel.style.position = 'fixed';
+                pixel.style.zIndex = '1';
 
-                    const size = 4 + Math.floor(Math.random() * 3) * 4;
-                    pixel.style.width = `${size}px`;
-                    pixel.style.height = `${size}px`;
+                const size = 4 + Math.floor(Math.random() * 3) * 4;
+                pixel.style.width = `${size}px`;
+                pixel.style.height = `${size}px`;
 
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = 50 + Math.random() * 100;
-                    const x = Math.cos(angle) * distance;
-                    const y = Math.sin(angle) * distance;
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 100;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
 
-                    pixel.style.animation = `pixel-explode ${0.5 + Math.random()}s forwards`;
-                    pixel.style.setProperty('--x', `${x}px`);
-                    pixel.style.setProperty('--y', `${y}px`);
+                pixel.style.animation = `pixel-explode ${0.5 + Math.random()}s forwards`;
+                pixel.style.setProperty('--x', `${x}px`);
+                pixel.style.setProperty('--y', `${y}px`);
 
-                    document.body.appendChild(pixel);
-                    setTimeout(() => pixel.remove(), 1000);
-                }
+                document.body.appendChild(pixel);
+                setTimeout(() => pixel.remove(), 1000);
             }
+        }
 
-            function updateBirthdayUI() {
-                birthdayState.joy = 80 + Math.floor(Math.random() * 20);
-                healthFill.style.width = `${birthdayState.joy}%`;
-                healthFill.style.background = `linear-gradient(to right, #ef476f, #ffd166)`;
-                scoreDisplay.textContent = `JOY: ${birthdayState.joy}%`;
-                levelDisplay.textContent = `AGE: ${birthdayState.age}`;
+        function updateBirthdayUI() {
+            birthdayState.joy = 80 + Math.floor(Math.random() * 20);
+            healthFill.style.width = `${birthdayState.joy}%`;
+            healthFill.style.background = `linear-gradient(to right, #ef476f, #ffd166)`;
+            scoreDisplay.textContent = `JOY: ${birthdayState.joy}%`;
+            levelDisplay.textContent = `AGE: ${birthdayState.age}`;
+        }
+
+        function showAchievement() {
+            achievementBadge.classList.add('active');
+            setTimeout(() => achievementBadge.classList.remove('active'), 3000);
+        }
+
+        function playMessage(index) {
+            // Get the message at the specified index
+            const message = birthdayState.messages[index];
+
+            // Update the notification content
+            notificationContent.textContent = message.text;
+
+            // Update progress display
+            progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
+
+            // Show or hide image based on the message
+            if (message.showImage) {
+                celebrantImageContainer.style.display = 'flex';
+                gameNotification.classList.add('has-image');
+                // Show achievement badge only when image appears
+                showAchievement();
+            } else {
+                celebrantImageContainer.style.display = 'none';
+                gameNotification.classList.remove('has-image');
             }
+        }
 
-            function showAchievement() {
-                achievementBadge.classList.add('active');
-                setTimeout(() => achievementBadge.classList.remove('active'), 3000);
-            }
+        function showNextMessage() {
+            // Move to the next message (or loop back to the first)
+            birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
+            playMessage(birthdayState.currentMessageIndex);
+            createConfetti();
+        }
 
-            function playMessage(index) {
-                // Get the message at the specified index
-                const message = birthdayState.messages[index];
+        function resetExperience() {
+            gameNotification.classList.remove('active');
+            birthdayState.currentMessageIndex = 0;
+            updateBirthdayUI();
+        }
 
-                // Update the notification content
-                notificationContent.textContent = message.text;
+        // Event listeners
+        gameButton.addEventListener('click', () => {
+            createPixelExplosion();
+            updateBirthdayUI();
 
-                // Update progress display
-                progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
-
-                // Show or hide image based on the message
-                const imageContainer = document.getElementById('celebrantImageContainer');
-                if (message.showImage) {
-                    imageContainer.style.display = 'flex';
-                    gameNotification.classList.add('has-image');
-                    // Show achievement badge only when image appears
-                    showAchievement();
-                } else {
-                    imageContainer.style.display = 'none';
-                    gameNotification.classList.remove('has-image');
-                }
-            }
-
-            function showNextMessage() {
-                // Move to the next message (or loop back to the first)
-                birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
+            setTimeout(() => {
                 playMessage(birthdayState.currentMessageIndex);
                 createConfetti();
-            }
-
-            function resetExperience() {
-                gameNotification.classList.remove('active');
-                birthdayState.currentMessageIndex = 0;
-                updateBirthdayUI();
-            }
-
-            // Event listeners
-            gameButton.addEventListener('click', () => {
-                createPixelExplosion();
-                updateBirthdayUI();
 
                 setTimeout(() => {
-                    playMessage(birthdayState.currentMessageIndex);
-                    createConfetti();
+                    gameNotification.classList.add('active');
+                }, 100);
+            }, 400);
+        });
 
-                    setTimeout(() => {
-                        gameNotification.classList.add('active');
-                    }, 100);
-                }, 400);
-            });
+        restartBtn.addEventListener('click', resetExperience);
 
-            restartBtn.addEventListener('click', resetExperience);
+        nextBtn.addEventListener('click', showNextMessage);
 
-            nextBtn.addEventListener('click', showNextMessage);
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') gameButton.click();
+        });
 
-            document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space' || e.code === 'Enter') gameButton.click();
-            });
+        // Initialize on user interaction
+        document.addEventListener('click', function initOnInteraction() {
+            initBirthday();
+            document.removeEventListener('click', initOnInteraction);
+        }, { once: true });
 
-            // Initialize on user interaction
-            document.addEventListener('click', function initOnInteraction() {
-                initBirthday();
-                document.removeEventListener('click', initOnInteraction);
-            }, { once: true });
-        </script>
-
-    </body>
+        // Handle orientation changes
+        window.addEventListener('resize', () => {
+            if (gameNotification.classList.contains('active')) {
+                // Reposition the notification if screen size changes
+                gameNotification.style.left = '50%';
+                gameNotification.style.top = '50%';
+                gameNotification.style.transform = 'translate(-50%, -50%) scale(1)';
+            }
+        });
+    </script>
+</body>
 
 </html>
