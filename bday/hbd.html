@@ -17,7 +17,7 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: #0a1128;
+            background: #1a0033;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -60,8 +60,8 @@
             width: 100%;
             height: 8px;
             background: repeating-linear-gradient(to right,
-                    #48cae4,
-                    #48cae4 8px,
+                    #ff66b3,
+                    #ff66b3 8px,
                     transparent 8px,
                     transparent 16px);
         }
@@ -71,8 +71,8 @@
             height: 100%;
             width: 8px;
             background: repeating-linear-gradient(to bottom,
-                    #48cae4,
-                    #48cae4 8px,
+                    #ff66b3,
+                    #ff66b3 8px,
                     transparent 8px,
                     transparent 16px);
         }
@@ -105,8 +105,8 @@
             width: 100%;
             height: 100%;
             background-image:
-                linear-gradient(rgba(72, 202, 228, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(72, 202, 228, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(255, 102, 179, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 102, 179, 0.05) 1px, transparent 1px);
             background-size: 8px 8px;
             z-index: -1;
             pointer-events: none;
@@ -116,7 +116,7 @@
         .cake-icon {
             font-size: clamp(50px, 10vw, 80px);
             margin-bottom: clamp(15px, 3vw, 30px);
-            text-shadow: 0 6px 0 #001f54;
+            text-shadow: 0 6px 0 #66004d;
             animation: bounce 2s infinite;
             position: relative;
             z-index: 10;
@@ -135,9 +135,9 @@
         }
 
         .birthday-title {
-            color: #ff85a2;
+            color: #ff85d8;
             font-size: clamp(20px, 6vw, 36px);
-            text-shadow: 0 6px 0 #001f54;
+            text-shadow: 0 6px 0 #66004d;
             margin-bottom: clamp(15px, 3vw, 30px);
             text-align: center;
             line-height: 1.4;
@@ -151,16 +151,16 @@
             position: relative;
             width: clamp(140px, 40vw, 180px);
             height: clamp(60px, 12vw, 80px);
-            background: #034078;
-            border: 4px solid #1282a2;
-            color: #caf0f8;
+            background: #800080;
+            border: 4px solid #ff66b3;
+            color: #ffd6f4;
             font-family: 'Press Start 2P', cursive;
             font-size: clamp(9px, 2.5vw, 12px);
             cursor: pointer;
-            text-shadow: 0 2px 0 #001f54;
+            text-shadow: 0 2px 0 #66004d;
             box-shadow:
                 4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
+                inset 0 0 0 2px #66004d;
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 10;
             display: flex;
@@ -173,18 +173,18 @@
         }
 
         .game-button:hover {
-            background: #1282a2;
+            background: #ff66b3;
             transform: translate(2px, 2px);
             box-shadow:
                 2px 2px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
+                inset 0 0 0 2px #66004d;
         }
 
         .game-button:active {
             transform: translate(4px, 4px);
             box-shadow:
                 0px 0px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
+                inset 0 0 0 2px #66004d;
             transition: all 0.1s ease-out;
         }
 
@@ -195,7 +195,7 @@
             left: -8px;
             right: -8px;
             bottom: -8px;
-            border: 2px solid #48cae4;
+            border: 2px solid #ff85d8;
             z-index: -1;
             pointer-events: none;
             opacity: 0;
@@ -215,13 +215,13 @@
             width: min(90vw, 400px);
             max-height: 80vh;
             overflow-y: auto;
-            background: #001f54;
-            border: 6px solid #1282a2;
+            background: #66004d;
+            border: 6px solid #ff66b3;
             padding: min(4vw, 25px);
             box-shadow:
                 12px 12px 0 rgba(0, 0, 0, 0.5),
-                inset 0 0 0 4px #034078,
-                inset 0 0 0 8px #001f54;
+                inset 0 0 0 4px #800080,
+                inset 0 0 0 8px #66004d;
             z-index: 100;
             opacity: 0;
             pointer-events: none;
@@ -262,23 +262,23 @@
             align-items: center;
             margin-bottom: clamp(10px, 2vw, 20px);
             padding-bottom: clamp(8px, 1.5vw, 15px);
-            border-bottom: 2px solid #1282a2;
+            border-bottom: 2px solid #ff66b3;
         }
 
         .notification-title {
-            color: #48cae4;
+            color: #ff85d8;
             font-size: clamp(16px, 4vw, 20px);
-            text-shadow: 0 4px 0 #001f54;
+            text-shadow: 0 4px 0 #66004d;
             margin: 0;
         }
 
         .notification-icon {
             width: clamp(20px, 6vw, 24px);
             height: clamp(20px, 6vw, 24px);
-            background-color: #48cae4;
-            border: 2px solid #90e0ef;
+            background-color: #ff66b3;
+            border: 2px solid #ff85d8;
             box-shadow:
-                0 0 0 2px #001f54,
+                0 0 0 2px #66004d,
                 2px 2px 0 rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: center;
@@ -287,11 +287,11 @@
         }
 
         .notification-content {
-            color: #caf0f8;
+            color: #ffd6f4;
             font-size: clamp(11px, 3vw, 14px);
             line-height: 1.6;
             margin-bottom: clamp(15px, 3vw, 25px);
-            text-shadow: 0 2px 0 #001f54;
+            text-shadow: 0 2px 0 #66004d;
         }
 
         .notification-buttons {
@@ -302,16 +302,16 @@
 
         .notification-btn {
             padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px);
-            background: #034078;
-            color: #caf0f8;
-            border: 2px solid #1282a2;
+            background: #800080;
+            color: #ffd6f4;
+            border: 2px solid #ff66b3;
             font-family: 'Press Start 2P', cursive;
             font-size: clamp(10px, 2.5vw, 12px);
             cursor: pointer;
-            text-shadow: 0 2px 0 #001f54;
+            text-shadow: 0 2px 0 #66004d;
             box-shadow:
                 4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
+                inset 0 0 0 2px #66004d;
             transition: all 0.1s;
             flex: 1;
             max-width: 120px;
@@ -323,26 +323,25 @@
         }
 
         .notification-btn:hover {
-            background: #1282a2;
+            background: #ff66b3;
             transform: translate(2px, 2px);
             box-shadow:
                 2px 2px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
+                inset 0 0 0 2px #66004d;
         }
 
         .notification-btn:active {
             transform: translate(4px, 4px);
             box-shadow:
                 0px 0px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #001f54;
+                inset 0 0 0 2px #66004d;
         }
 
         .btn-accent {
-            background: #1282a2;
-            border-color: #48cae4;
+            background: #ff66b3;
+            border-color: #ff85d8;
         }
 
-        /* Game UI Elements */
         /* Game UI Elements */
         .game-ui {
             position: absolute;
@@ -358,10 +357,10 @@
             left: clamp(15px, 3vw, 30px);
             width: clamp(120px, 30vw, 200px);
             height: clamp(20px, 4vw, 30px);
-            background: #001f54;
-            border: 3px solid #1282a2;
+            background: #66004d;
+            border: 3px solid #ff66b3;
             box-shadow:
-                inset 0 0 0 3px #034078,
+                inset 0 0 0 3px #800080,
                 6px 6px 0 rgba(0, 0, 0, 0.3);
         }
 
@@ -371,7 +370,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to right, #ef476f, #ffd166);
+            background: linear-gradient(to right, #ff0080, #ff66b3);
             transition: width 0.3s;
         }
 
@@ -379,12 +378,12 @@
             position: absolute;
             top: clamp(15px, 3vw, 30px);
             right: clamp(15px, 3vw, 30px);
-            color: #caf0f8;
+            color: #ffd6f4;
             font-size: clamp(14px, 3.5vw, 18px);
-            text-shadow: 0 3px 0 #001f54;
+            text-shadow: 0 3px 0 #66004d;
             padding: 5px 10px;
-            background: rgba(0, 31, 84, 0.7);
-            border: 2px solid #1282a2;
+            background: rgba(102, 0, 77, 0.7);
+            border: 2px solid #ff66b3;
             border-radius: 4px;
         }
 
@@ -392,12 +391,12 @@
             position: absolute;
             top: clamp(50px, 8vw, 70px);
             left: clamp(15px, 3vw, 30px);
-            color: #caf0f8;
+            color: #ffd6f4;
             font-size: clamp(14px, 3.5vw, 18px);
-            text-shadow: 0 3px 0 #001f54;
+            text-shadow: 0 3px 0 #66004d;
             padding: 5px 10px;
-            background: rgba(0, 31, 84, 0.7);
-            border: 2px solid #1282a2;
+            background: rgba(102, 0, 77, 0.7);
+            border: 2px solid #ff66b3;
             border-radius: 4px;
         }
 
@@ -405,41 +404,56 @@
         .achievement-badge {
             position: fixed;
             top: clamp(10px, 2vw, 20px);
-            right: -220px;
-            width: clamp(160px, 40vw, 200px);
-            height: clamp(30px, 8vw, 40px);
-            background: #001f54;
-            border: 2px solid #1282a2;
+            right: -10px;
+            /* Start just slightly off-screen */
+            width: clamp(220px, 50vw, 280px);
+            height: clamp(50px, 12vw, 60px);
+            background: #66004d;
+            border: 3px solid #ff66b3;
             display: flex;
             align-items: center;
-            padding: clamp(3px, 1vw, 5px) clamp(5px, 2vw, 10px);
+            padding: clamp(5px, 1.5vw, 10px) clamp(10px, 3vw, 15px);
             box-shadow:
-                4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #034078;
+                6px 6px 0 rgba(0, 0, 0, 0.3),
+                inset 0 0 0 3px #800080;
             z-index: 50;
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateX(100%);
+            /* Fully hidden when inactive */
         }
 
         .achievement-badge.active {
-            transform: translateX(calc(-1 * clamp(180px, 45vw, 240px)));
+            transform: translateX(0);
+            /* Fully visible when active */
+            right: 10px;
+            /* Adjust final position */
         }
 
         .badge-icon {
-            width: clamp(24px, 7vw, 30px);
-            height: clamp(24px, 7vw, 30px);
-            background-color: #48cae4;
-            border: 2px solid #90e0ef;
-            margin-right: clamp(5px, 2vw, 10px);
+            width: clamp(36px, 10vw, 44px);
+            /* Larger icon */
+            height: clamp(36px, 10vw, 44px);
+            /* Larger icon */
+            background-color: #ff66b3;
+            border: 3px solid #ff85d8;
+            /* Thicker border */
+            margin-right: clamp(10px, 3vw, 15px);
+            /* Increased margin */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(12px, 3.5vw, 14px);
+            font-size: clamp(18px, 5vw, 22px);
+            /* Larger font */
         }
 
         .badge-text {
-            color: #caf0f8;
-            font-size: clamp(8px, 2vw, 10px);
-            text-shadow: 0 2px 0 #001f54;
+            color: #ffd6f4;
+            font-size: clamp(12px, 3vw, 16px);
+            /* Larger text */
+            text-shadow: 0 3px 0 #66004d;
+            /* Stronger shadow */
+            line-height: 1.3;
+            /* Better text alignment */
         }
 
         /* Celebrant Image */
@@ -453,9 +467,9 @@
         .celebrant-image {
             width: clamp(100px, 30vw, 150px);
             height: clamp(100px, 30vw, 150px);
-            border: 4px solid #1282a2;
+            border: 4px solid #ff66b3;
             box-shadow:
-                0 0 0 4px #001f54,
+                0 0 0 4px #66004d,
                 4px 4px 0 rgba(0, 0, 0, 0.3);
             object-fit: cover;
             image-rendering: pixelated;
@@ -470,17 +484,17 @@
 
         /* Progress display */
         .progress-display {
-            color: #48cae4;
+            color: #ff85d8;
             font-size: clamp(10px, 2.5vw, 12px);
             text-align: center;
             margin-bottom: clamp(10px, 3vw, 20px);
-            text-shadow: 0 2px 0 #001f54;
+            text-shadow: 0 2px 0 #66004d;
         }
 
         /* Next button */
         .btn-next {
-            background: #06d6a0;
-            border-color: #06d6a0;
+            background: #ff66b3;
+            border-color: #ff85d8;
         }
 
         /* Confetti */
@@ -539,8 +553,8 @@
             right: clamp(10px, 2vw, 20px);
             width: clamp(30px, 8vw, 40px);
             height: clamp(30px, 8vw, 40px);
-            background: #001f54;
-            border: 2px solid #1282a2;
+            background: #66004d;
+            border: 2px solid #ff66b3;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -548,14 +562,14 @@
             cursor: pointer;
             box-shadow:
                 4px 4px 0 rgba(0, 0, 0, 0.3),
-                inset 0 0 0 2px #034078;
+                inset 0 0 0 2px #800080;
             z-index: 10;
         }
 
         .sound-toggle i {
-            color: #caf0f8;
+            color: #ffd6f4;
             font-size: clamp(14px, 4vw, 16px);
-            text-shadow: 0 2px 0 #001f54;
+            text-shadow: 0 2px 0 #66004d;
         }
 
         /* Very small screens adjustments */
@@ -588,7 +602,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0a1128;
+            background: #1a0033;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -612,7 +626,7 @@
         .loader-pixel {
             width: 16px;
             height: 16px;
-            background: #1282a2;
+            background: #ff66b3;
             animation: pixelPulse 1.5s infinite;
             animation-delay: calc(var(--pixel-index) * 0.05s);
             opacity: 0;
@@ -620,9 +634,9 @@
 
         .loader-text {
             font-family: 'Press Start 2P', cursive;
-            color: #48cae4;
+            color: #ff85d8;
             font-size: 12px;
-            text-shadow: 0 2px 0 #001f54;
+            text-shadow: 0 2px 0 #66004d;
             animation: textGlow 1s infinite alternate;
         }
 
@@ -637,19 +651,19 @@
             50% {
                 opacity: 1;
                 transform: scale(1.1);
-                background: #48cae4;
+                background: #ff85d8;
             }
         }
 
         @keyframes textGlow {
             from {
                 opacity: 0.7;
-                text-shadow: 0 0 5px #48cae4;
+                text-shadow: 0 0 5px #ff85d8;
             }
 
             to {
                 opacity: 1;
-                text-shadow: 0 0 10px #48cae4, 0 0 20px #48cae4;
+                text-shadow: 0 0 10px #ff85d8, 0 0 20px #ff85d8;
             }
         }
 
@@ -765,16 +779,16 @@
             age: 25,
             currentMessageIndex: 0,
             messages: [
-                { text: "HAPPY BIRTHDAY! MAY YOUR DAY BE FILLED WITH POWER-UPS AND EXTRA LIVES!", showImage: false },
-                { text: "LEVEL UP! ANOTHER YEAR OF AWESOMENESS UNLOCKED!", showImage: true },
-                { text: "ACHIEVEMENT UNLOCKED: ANOTHER TRIP AROUND THE SUN!", showImage: true },
+                { text: "HAPPY BIRTHDAY KUYA GEM! nawa'y ang araw na ito ay maging makasaysayan at hindi mo makakalimutang araw para sayo, mabuhay ka hanggang sa gusto at makuha mo na sana lahat nang devil fruit sa one piece at skin sa emel. \n\n-Vanjo", showImage: false },
+                { text: "happy birthday ka. gem✨️✨️✨️ huwag sana mawala yung zestful attitude mo sa pagtuturo bilang mwa/future minister✨️✨️✨️ - Mafia", showImage: false },
+                { text: "ACHIEVEMENT UNLOCKED: ANOTHER TRIP AROUND THE SUN!", showImage: false },
                 { text: "SPECIAL BIRTHDAY POWER: +100 HAPPINESS STATS!", showImage: false },
                 { text: "YOU'VE EARNED THE 'AMAZING PERSON' BADGE FOR ANOTHER YEAR!", showImage: false },
                 { text: "BIRTHDAY BONUS: UNLIMITED CAKE FOR TODAY!", showImage: false },
                 { text: "YOUR WISDOM STAT INCREASED BY +5 THIS YEAR!", showImage: false },
                 { text: "NEW SKILL UNLOCKED: ANOTHER YEAR OF BEING AWESOME!", showImage: true }
             ],
-            gemstones: ["💎", "💠", "🔴", "🟡"]
+            gemstones: ["💎", "💠", "🔴"]
         };
 
         // Initialize birthday greeting
