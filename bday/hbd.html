@@ -902,10 +902,10 @@
         const cakeIcon = document.querySelector('.cake-icon');
         const celebrantImageContainer = document.getElementById('celebrantImageContainer');
 
-        // Birthday state
+        // Improved Birthday State
         let birthdayState = {
-            joy: 100,
-            age: 25,
+            joy: 100, // Start at 100% joy
+            age: 24, // Current age
             currentMessageIndex: 0,
             messages: [
                 { text: "Mula po sa pamilya ng mga bumbilya, kami po ay bumabati nga happy happy birthday po sa aming butihing tagasubaybay a.k.a lookout (char!) 👀👀👀💅 -Ilaw Fam", showImage: false },
@@ -921,18 +921,93 @@
                 { text: "Happy Birthday Ka Gem now a name but soon a Legend -Tita Burns🔥", showImage: false },
                 { text: "Happy Birthday po BASHER!!! sana h'wag ka na pong mang-bash char lang Happy birthday po ulit -Fei", showImage: false }
             ],
-            gemstones: ["💎", "💠"]
+            gemstones: ["💎", "💠"],
+            // New properties for improved logic
+            joyDecayRate: 0.5, // How quickly joy decreases over time
+            joyRecoveryRate: 15, // How much joy recovers with each message
+            maxJoy: 100,
+            minJoy: 20,
+            ageIncreaseRate: 0.1, // How quickly the "age" increases during the celebration
+            baseAge: 24, // Starting age
+            joyDecayInterval: null // To store the interval reference
         };
 
         // Initialize birthday greeting
         function initBirthday() {
             updateBirthdayUI();
 
+            // Start joy decay over time (if not already running)
+            if (!birthdayState.joyDecayInterval) {
+                birthdayState.joyDecayInterval = setInterval(decayJoyOverTime, 3000);
+            }
+
             // Start with a little animation
             setTimeout(() => {
                 cakeIcon.style.animation = 'none';
                 setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite, candleFlicker 0.5s infinite alternate', 10);
             }, 1000);
+        }
+
+        // Joy decreases slowly over time (like real life)
+        function decayJoyOverTime() {
+            if (!gameNotification.classList.contains('active')) {
+                birthdayState.joy = Math.max(
+                    birthdayState.minJoy,
+                    birthdayState.joy - birthdayState.joyDecayRate
+                );
+                updateBirthdayUI();
+            }
+        }
+
+        // When receiving messages, joy increases
+        function increaseJoy(amount = birthdayState.joyRecoveryRate) {
+            birthdayState.joy = Math.min(
+                birthdayState.maxJoy,
+                birthdayState.joy + amount
+            );
+
+            // Also "age" increases slightly with each message (but not too much)
+            birthdayState.age = birthdayState.baseAge +
+                (birthdayState.currentMessageIndex * birthdayState.ageIncreaseRate);
+
+            updateBirthdayUI();
+        }
+
+        // More dynamic health bar colors based on joy level
+        function updateBirthdayUI() {
+            // Calculate health bar color based on joy level
+            let healthColor;
+            if (birthdayState.joy > 75) {
+                healthColor = `linear-gradient(to right, #06d6a0, #ffd166)`; // Happy green to yellow
+            } else if (birthdayState.joy > 50) {
+                healthColor = `linear-gradient(to right, #ffd166, #ff9e00)`; // Yellow to orange
+            } else {
+                healthColor = `linear-gradient(to right, #ef476f, #ff9e00)`; // Red to orange
+            }
+
+            healthFill.style.width = `${birthdayState.joy}%`;
+            healthFill.style.background = healthColor;
+
+            // Update displays with more dynamic text
+            scoreDisplay.textContent = `JOY: ${Math.round(birthdayState.joy)}% ${getJoyEmoji()}`;
+            levelDisplay.textContent = `AGE: ${birthdayState.age.toFixed(1)} ${getAgeEmoji()}`;
+        }
+
+        // Get appropriate emoji based on joy level
+        function getJoyEmoji() {
+            if (birthdayState.joy > 90) return "😄";
+            if (birthdayState.joy > 75) return "😊";
+            if (birthdayState.joy > 50) return "🙂";
+            if (birthdayState.joy > 30) return "😐";
+            return "😞";
+        }
+
+        // Get appropriate emoji based on age
+        function getAgeEmoji() {
+            if (birthdayState.age < 25) return "👶";
+            if (birthdayState.age < 30) return "🧑";
+            if (birthdayState.age < 40) return "🧔";
+            return "👴";
         }
 
         function createConfetti() {
@@ -1003,14 +1078,6 @@
             }
         }
 
-        function updateBirthdayUI() {
-            birthdayState.joy = 80 + Math.floor(Math.random() * 20);
-            healthFill.style.width = `${birthdayState.joy}%`;
-            healthFill.style.background = `linear-gradient(to right, #ef476f, #ffd166)`;
-            scoreDisplay.textContent = `JOY: ${birthdayState.joy}%`;
-            levelDisplay.textContent = `AGE: ${birthdayState.age}`;
-        }
-
         function showAchievement() {
             achievementBadge.classList.add('active');
             setTimeout(() => achievementBadge.classList.remove('active'), 3000);
@@ -1032,6 +1099,8 @@
                 gameNotification.classList.add('has-image');
                 // Show achievement badge only when image appears
                 showAchievement();
+                // Extra joy boost for special messages with images
+                increaseJoy(25);
             } else {
                 celebrantImageContainer.style.display = 'none';
                 gameNotification.classList.remove('has-image');
@@ -1042,19 +1111,22 @@
             // Move to the next message (or loop back to the first)
             birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
             playMessage(birthdayState.currentMessageIndex);
+            increaseJoy(); // Joy increases with each message
             createConfetti();
         }
 
         function resetExperience() {
             gameNotification.classList.remove('active');
             birthdayState.currentMessageIndex = 0;
+            birthdayState.joy = 100;
+            birthdayState.age = birthdayState.baseAge;
             updateBirthdayUI();
         }
 
         // Event listeners
         gameButton.addEventListener('click', () => {
             createPixelExplosion();
-            updateBirthdayUI();
+            increaseJoy(20); // Initial joy boost when starting
 
             setTimeout(() => {
                 playMessage(birthdayState.currentMessageIndex);
