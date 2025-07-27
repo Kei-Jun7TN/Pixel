@@ -13,7 +13,7 @@
     <link rel="preload" href="assets/gems/green2.png" as="image">
     <link rel="preload" href="assets/gems/spark1.png" as="image">
     <link rel="preload" href="assets/gems/spark2.png" as="image">
-    <title>8-Bit Birthday Greeting for Gem Christian</title>
+    <title>Greeting for Gem Christian</title>
     <style>
         :root {
             --primary-color: #ff66b3;
@@ -133,6 +133,10 @@
             background-size: 200% 100%;
             animation: waveMove 8s linear infinite;
             image-rendering: pixelated;
+        }
+
+        .pixel-waves.static {
+            animation: none;
         }
 
         @keyframes waveMove {
@@ -355,8 +359,8 @@
         }
 
         .notification-icon {
-            width: clamp(20px, 6vw, 24px);
-            height: clamp(20px, 6vw, 24px);
+            width: clamp(30px, 7vw, 25px);
+            height: clamp(30px, 7vw, 25px);
             background-color: var(--primary-color);
             border: 2px solid var(--secondary-color);
             box-shadow:
@@ -365,7 +369,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(10px, 3vw, 12px);
+            font-size: clamp(20px, 4vw, 1px);
         }
 
         .notification-content {
@@ -849,7 +853,7 @@
             <div class="health-fill" id="healthFill"></div>
         </div>
         <div class="score-display" id="scoreDisplay">JOY: 98%</div>
-        <div class="level-display" id="levelDisplay">AGE: 24</div>
+        <div class="level-display" id="levelDisplay">AGE: 21</div>
     </div>
 
     <!-- Achievement Badge -->
@@ -882,8 +886,6 @@
         // Initialize loader pixels
         document.addEventListener('DOMContentLoaded', function () {
             const loader = document.getElementById('pixelLoader');
-
-            // Remove loader after animation completes
             setTimeout(() => {
                 loader.remove();
             }, 3500);
@@ -901,11 +903,12 @@
         const progressDisplay = document.getElementById('progressDisplay');
         const cakeIcon = document.querySelector('.cake-icon');
         const celebrantImageContainer = document.getElementById('celebrantImageContainer');
+        const pixelWaves = document.querySelector('.pixel-waves');
 
-        // Improved Birthday State
+        // Birthday State (precise age logic)
         let birthdayState = {
-            joy: 100, // Start at 100% joy
-            age: 24, // Current age
+            joy: 100,
+            age: 21, // Starts at 21
             currentMessageIndex: 0,
             messages: [
                 { text: "Mula po sa pamilya ng mga bumbilya, kami po ay bumabati nga happy happy birthday po sa aming butihing tagasubaybay a.k.a lookout (char!) 👀👀👀💅 -Ilaw Fam", showImage: false },
@@ -922,33 +925,27 @@
                 { text: "Happy Birthday po BASHER!!! sana h'wag ka na pong mang-bash char lang Happy birthday po ulit -Fei", showImage: false }
             ],
             gemstones: ["💎", "💠"],
-            // New properties for improved logic
-            joyDecayRate: 0.5, // How quickly joy decreases over time
-            joyRecoveryRate: 15, // How much joy recovers with each message
+            joyDecayRate: 0.5,
+            joyRecoveryRate: 15,
             maxJoy: 100,
             minJoy: 20,
-            ageIncreaseRate: 0.1, // How quickly the "age" increases during the celebration
-            baseAge: 24, // Starting age
-            joyDecayInterval: null // To store the interval reference
+            joyDecayInterval: null,
+            hasAgedUp: false // Tracks if age has increased
         };
 
         // Initialize birthday greeting
         function initBirthday() {
             updateBirthdayUI();
-
-            // Start joy decay over time (if not already running)
             if (!birthdayState.joyDecayInterval) {
                 birthdayState.joyDecayInterval = setInterval(decayJoyOverTime, 3000);
             }
-
-            // Start with a little animation
             setTimeout(() => {
                 cakeIcon.style.animation = 'none';
                 setTimeout(() => cakeIcon.style.animation = 'bounce 2s infinite, candleFlicker 0.5s infinite alternate', 10);
             }, 1000);
         }
 
-        // Joy decreases slowly over time (like real life)
+        // Joy decreases slowly over time
         function decayJoyOverTime() {
             if (!gameNotification.classList.contains('active')) {
                 birthdayState.joy = Math.max(
@@ -959,41 +956,33 @@
             }
         }
 
-        // When receiving messages, joy increases
+        // Joy increases with messages
         function increaseJoy(amount = birthdayState.joyRecoveryRate) {
             birthdayState.joy = Math.min(
                 birthdayState.maxJoy,
                 birthdayState.joy + amount
             );
-
-            // Also "age" increases slightly with each message (but not too much)
-            birthdayState.age = birthdayState.baseAge +
-                (birthdayState.currentMessageIndex * birthdayState.ageIncreaseRate);
-
             updateBirthdayUI();
         }
 
-        // More dynamic health bar colors based on joy level
+        // Update UI
         function updateBirthdayUI() {
-            // Calculate health bar color based on joy level
             let healthColor;
             if (birthdayState.joy > 75) {
-                healthColor = `linear-gradient(to right, #06d6a0, #ffd166)`; // Happy green to yellow
+                healthColor = `linear-gradient(to right, #06d6a0, #ffd166)`;
             } else if (birthdayState.joy > 50) {
-                healthColor = `linear-gradient(to right, #ffd166, #ff9e00)`; // Yellow to orange
+                healthColor = `linear-gradient(to right, #ffd166, #ff9e00)`;
             } else {
-                healthColor = `linear-gradient(to right, #ef476f, #ff9e00)`; // Red to orange
+                healthColor = `linear-gradient(to right, #ef476f, #ff9e00)`;
             }
 
             healthFill.style.width = `${birthdayState.joy}%`;
             healthFill.style.background = healthColor;
-
-            // Update displays with more dynamic text
             scoreDisplay.textContent = `JOY: ${Math.round(birthdayState.joy)}% ${getJoyEmoji()}`;
-            levelDisplay.textContent = `AGE: ${birthdayState.age.toFixed(1)} ${getAgeEmoji()}`;
+            levelDisplay.textContent = `AGE: ${birthdayState.age} ${getAgeEmoji()}`;
         }
 
-        // Get appropriate emoji based on joy level
+        // Joy emoji
         function getJoyEmoji() {
             if (birthdayState.joy > 90) return "😄";
             if (birthdayState.joy > 75) return "😊";
@@ -1002,16 +991,13 @@
             return "😞";
         }
 
-        // Get appropriate emoji based on age
+        // Age emoji (21 vs 22)
         function getAgeEmoji() {
-            if (birthdayState.age < 25) return "👶";
-            if (birthdayState.age < 30) return "🧑";
-            if (birthdayState.age < 40) return "🧔";
-            return "👴";
+            return birthdayState.age === 21 ? "🧑" : "🧔";
         }
 
+        // Confetti effects
         function createConfetti() {
-            // Create image-based confetti
             for (let i = 0; i < 60; i++) {
                 const gem = document.createElement('img');
                 gem.className = 'gem-confetti';
@@ -1026,11 +1012,9 @@
                 gem.style.zIndex = '1';
                 gem.style.imageRendering = 'pixelated';
                 document.body.appendChild(gem);
-
                 setTimeout(() => gem.remove(), 5000);
             }
 
-            // Create emoji-based confetti
             for (let i = 0; i < 60; i++) {
                 const gem = document.createElement('div');
                 gem.className = 'gem-confetti';
@@ -1043,12 +1027,12 @@
                 gem.style.zIndex = '1';
                 gem.style.fontSize = (20 + Math.random() * 20) + 'px';
                 gem.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`;
-
                 document.body.appendChild(gem);
                 setTimeout(() => gem.remove(), 5000);
             }
         }
 
+        // Pixel explosion effect
         function createPixelExplosion() {
             const colors = ['#ff85a2', '#ffd166', '#06d6a0', '#118ab2', '#ff85d8', '#ff66b3'];
             for (let i = 0; i < 50; i++) {
@@ -1059,47 +1043,36 @@
                 pixel.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 pixel.style.position = 'fixed';
                 pixel.style.zIndex = '1';
-
                 const size = 4 + Math.floor(Math.random() * 3) * 4;
                 pixel.style.width = `${size}px`;
                 pixel.style.height = `${size}px`;
-
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 50 + Math.random() * 100;
                 const x = Math.cos(angle) * distance;
                 const y = Math.sin(angle) * distance;
-
                 pixel.style.animation = `pixel-explode ${0.5 + Math.random()}s forwards`;
                 pixel.style.setProperty('--x', `${x}px`);
                 pixel.style.setProperty('--y', `${y}px`);
-
                 document.body.appendChild(pixel);
                 setTimeout(() => pixel.remove(), 1000);
             }
         }
 
+        // Achievement badge
         function showAchievement() {
             achievementBadge.classList.add('active');
             setTimeout(() => achievementBadge.classList.remove('active'), 3000);
         }
 
+        // Show message
         function playMessage(index) {
-            // Get the message at the specified index
             const message = birthdayState.messages[index];
-
-            // Update the notification content
             notificationContent.textContent = message.text;
-
-            // Update progress display
             progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
-
-            // Show or hide image based on the message
             if (message.showImage) {
                 celebrantImageContainer.style.display = 'flex';
                 gameNotification.classList.add('has-image');
-                // Show achievement badge only when image appears
                 showAchievement();
-                // Extra joy boost for special messages with images
                 increaseJoy(25);
             } else {
                 celebrantImageContainer.style.display = 'none';
@@ -1107,55 +1080,60 @@
             }
         }
 
+        // Next message
         function showNextMessage() {
-            // Move to the next message (or loop back to the first)
             birthdayState.currentMessageIndex = (birthdayState.currentMessageIndex + 1) % birthdayState.messages.length;
             playMessage(birthdayState.currentMessageIndex);
-            increaseJoy(); // Joy increases with each message
+            increaseJoy();
             createConfetti();
         }
 
+        // Reset experience (including age)
         function resetExperience() {
             gameNotification.classList.remove('active');
             birthdayState.currentMessageIndex = 0;
             birthdayState.joy = 100;
-            birthdayState.age = birthdayState.baseAge;
+            birthdayState.age = 21; // Reset to 21
+            birthdayState.hasAgedUp = false; // Reset age-up flag
             updateBirthdayUI();
+            pixelWaves.classList.remove('static');
         }
 
-        // Event listeners
+        // Button click: Age increases to 22 (only once)
         gameButton.addEventListener('click', () => {
+            if (!birthdayState.hasAgedUp) {
+                birthdayState.age = 22;
+                birthdayState.hasAgedUp = true;
+                levelDisplay.textContent = `AGE: 22 ${getAgeEmoji()}`;
+            }
+
+            pixelWaves.classList.add('static');
             createPixelExplosion();
-            increaseJoy(20); // Initial joy boost when starting
+            increaseJoy(20);
 
             setTimeout(() => {
                 playMessage(birthdayState.currentMessageIndex);
                 createConfetti();
-
-                setTimeout(() => {
-                    gameNotification.classList.add('active');
-                }, 100);
+                setTimeout(() => gameNotification.classList.add('active'), 100);
             }, 400);
         });
 
+        // Event listeners
         restartBtn.addEventListener('click', resetExperience);
-
         nextBtn.addEventListener('click', showNextMessage);
 
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' || e.code === 'Enter') gameButton.click();
         });
 
-        // Initialize on user interaction
+        // Initialize on first interaction
         document.addEventListener('click', function initOnInteraction() {
             initBirthday();
             document.removeEventListener('click', initOnInteraction);
         }, { once: true });
 
-        // Handle orientation changes
         window.addEventListener('resize', () => {
             if (gameNotification.classList.contains('active')) {
-                // Reposition the notification if screen size changes
                 gameNotification.style.left = '50%';
                 gameNotification.style.top = '50%';
                 gameNotification.style.transform = 'translate(-50%, -50%) scale(1)';
