@@ -313,8 +313,6 @@
             padding: 15px;
             border-radius: 8px;
             border: 2px solid var(--accent-color);
-            transform: scale(1.0);
-            text-shadow: 0 0 10px var(--highlight-color);
             box-shadow:
                 0 0 15px rgba(179, 102, 255, 0.5),
                 inset 0 0 10px rgba(255, 255, 255, 0.1);
@@ -324,6 +322,11 @@
         .birthday-title span {
             display: block;
             transition: all 0.3s ease;
+        }
+
+        .birthday-title:hover span {
+            transform: scale(1.0);
+            text-shadow: 0 0 10px var(--highlight-color);
         }
 
         /* Game Button */
