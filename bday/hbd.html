@@ -875,26 +875,6 @@
             border-radius: 4px;
             white-space: nowrap;
             box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
-            z-index: 10;
-        }
-
-        @media (max-width: 600px) {
-            .level-display {
-                top: auto;
-                /* Remove fixed top position */
-                bottom: clamp(12px, 3vw, 20px);
-                /* Position at bottom */
-                left: 50%;
-                /* Center horizontally */
-                transform: translateX(-50%);
-                /* Center horizontally */
-            }
-
-            /* When image is visible on mobile */
-            .has-image .level-display {
-                bottom: 15vh;
-                /* Position above the image */
-            }
         }
 
         /* Achievement Badge */
@@ -1413,16 +1393,20 @@
             notificationContent.textContent = message.text;
             progressDisplay.textContent = `${index + 1}/${birthdayState.messages.length}`;
 
-            // Toggle image visibility
+            // Hide next button on final message
+            if (index === birthdayState.messages.length - 1) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'flex';
+            }
+
             if (message.showImage) {
                 celebrantImageContainer.style.display = 'flex';
                 gameNotification.classList.add('has-image');
-                document.body.classList.add('has-image'); // Add class to body
                 showAchievement();
             } else {
                 celebrantImageContainer.style.display = 'none';
                 gameNotification.classList.remove('has-image');
-                document.body.classList.remove('has-image'); // Remove class from body
             }
         }
 
